@@ -1,0 +1,27 @@
+questions:
+{
+    
+}
+options:[
+    string1,
+    string2,
+    string3,
+    string4
+]
+
+imageOptions:
+[
+    {
+        firstImage Object
+
+    },
+    {
+        secondImage Object
+
+    }
+]
+
+answer:
+{
+
+}

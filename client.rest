@@ -1,0 +1,44 @@
+POSt http://localhost:3000/v1/category/createCategory
+Content-Type: application/json
+
+{
+    "nameCategory": "Haryana",
+    "descriptionCategory": "This is teh category of haryana"
+}
+
+###
+
+POSt http://localhost:3000/v1/category/createSubCategory/615e9dbb29af600daca10519
+Content-Type: application/json
+
+{
+    "nameSubCategory": "Haryana",
+    "descriptionSubCategory": "This is teh category of haryana"
+}
+
+
+###
+
+POST http://localhost:3000/v1/auth/updatePassword
+Content-Type: application/json
+
+{
+    "email": "anasingh@gmail.com",
+    "password": "ishugudda"
+}
+
+###
+
+GET http://localhost:3000/v1/admin/getAllStudents
+Content-Type: application/json
+
+{
+    "offset": 1,
+    "limit": 3
+}
+
+
+
+###
+
+GET http://localhost:3000/v1/admin/otp

@@ -1,0 +1,2154 @@
+swagger: "2.0.0"
+info:
+  title: Test API Documentation
+  description: Api Documentation for Test App Cyber Flow
+  version: 1.0.0
+  contact:
+    email: choudharysidharth082000@gmail.com
+  servers:
+    - url: "http://localhost:3000"
+      description: "Local Server Running"
+    - url: "https://testcyberflow.herokuapp.com"
+      description: "Main Server"
+
+schemes: [http, https]
+
+paths:
+  /v1/userData/test:
+    get:
+      tags:
+        - name: Test API
+      summary: Test Api
+      description: Return HEllo world
+      responses:
+        200:
+          description: OK    
+          schema: 
+            type: object
+            properties:
+              message:
+                type: string     
+        400:
+          description: Undocumented
+        500:
+          description: Internal Server Error 
+  # v1/test/postQuestion/{testID}:
+  #   post:
+  #     tags: Test
+  #   summary: Posting The Question
+  #   description: This api will post the question in the test
+  #   consumes:
+  #     multipart/form-data
+  #   produces:
+  #     application/json
+  #   parameters:
+  #     - name: testID
+  #       in: path
+  #       type: string
+  #       required: true
+  #     - name: question
+  #       in: formData
+  #       type: string
+  #     - name: answer
+  #       in: formData
+  #       type: string
+  #     - name: answerExplanation
+  #       in: formData
+  #       type: string
+  #     - name: questionImage
+  #       in: file
+  #       type: file
+  #     - name: answerImage
+  #       in: formData
+  #       type: file
+  #   responses:
+  #     200:
+  #       description: OK
+  /v1/category/getSubCategoryByCategoryID/{categoryID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Test
+      summary: SUb Category By category Id 
+      description: Getting all the Sub Categories By Category ID
+      parameters:
+        - name: categoryID
+          in: path
+          type: string 
+          required: true
+        - name: offset
+          in: path
+          type: string 
+          required: true
+        - name: limit
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/test/editQuestionData/{questionID}:
+    put:
+      tags:
+        - name: Test
+      summary: Edit Question Data
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: questionID
+          in: path
+          type: string 
+          required: true
+        - name: question
+          in: formData
+          type: string 
+          required: true
+        - name: answer
+          in: formData
+          type: string 
+          required: true
+        - name: answerExplanation
+          in: formData
+          type: string 
+          required: true
+        - name: optionFormat
+          in: formData
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+
+
+  /v1/test/getQuestionByID/{questionID}:
+    get:
+      tags:
+        - name: Test
+      summary: Question By ID 
+      description: Getting all questions by ID
+      parameters:
+        - name: questionID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/test/editOption/{questionID}/{optionsID}:
+    put:
+      tags:
+        - name: Test
+      summary: Edit option
+      description: Edit the options 
+      consumes: 
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: questionID
+          in: path
+          type: string 
+          required: true
+        - name: optionsID
+          in: path
+          type: string 
+          required: true
+        - name: option
+          in: formData
+          type: string 
+          required: false
+        - name: optionsImage
+          in: formData
+          type: file 
+          required: false
+        - name: optionType
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+
+  /v1/test/uploadFile:
+    post:
+      tags:
+        - name: Upload File
+      summary: Upload File
+      description: Will upload files and return status
+      consumes:
+        multipart/form-data
+      produces: 
+        application/json
+      parameters:
+        - name: upload
+          in: formData
+          type: file
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/test/deleteQuestion/{questionID}:
+    delete:
+      tags:
+        - name: Test
+      summary: Deleted Question By ID
+      description: lorem
+      parameters:
+        - name: questionID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/test/getQuestions/{testID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Test
+      summary: Question By ID
+      description: APi will get all the questions by ID 
+      parameters:
+        - name: testID 
+          in: path
+          type: string 
+          required: true
+        - name: offset
+          in: path
+          type: string 
+          required: true
+        - name: limit
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+
+  /v1/test/deleteTest/{testID}:
+    delete:
+      tags:
+        - name: Test
+      summary: Deletes Test
+      description: APi will delete the test in the db
+      parameters:
+        - name: testID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/category/deleteCategory/{categoryID}:
+    delete:
+      tags:
+        - name: Test
+      summary: Deletes Category
+      description: APi will delete the category in the db
+      parameters:
+        - name: categoryID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/category/deleteSubCategory/{subCategoryID}:
+    delete:
+      tags:
+        - name: Test
+      summary: Deletes sub Category
+      description: APi will delete the Sub Category in the db
+      parameters:
+        - name: subCategoryID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/contact/getStatusQueries/{status}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Contact
+      summary: Queries According to status
+      description: APi will give queries according to the status
+      parameters:
+        - name: status
+          type: boolean
+          in: path
+          required: true
+        - name: offset
+          type: string 
+          in: path
+          required: true
+        - name: limit
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/test/getTestBySubCategory/{subCategoryID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Test
+      summary: Getting test by subCategoryID
+      description: lorem
+      parameters:
+        - name: subCategoryID
+          type: string
+          in: path
+          required: true
+        - name: offset
+          type: string
+          in: path
+        - name: limit
+          type: string
+          in: path
+      responses:
+        200:
+          description: OK
+          
+
+  
+  /v1/test/addOptions/{questionID}:
+    post:
+      tags:
+        - name: Test
+      summary: Add Options
+      description: Addinf options to the db
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: questionID
+          in: path
+          type: string
+          required: true
+        - name: option
+          in: formData
+          type: string
+          description: This should be the value of the option
+        - name: optionType
+          in: formData
+          type: string
+          description: This will determine wether the option is in Text Mode or File Mode
+        - name: optionImage
+          in: formData
+          type: file
+          description: when the option is in image format
+      responses:
+        200:
+          description: OK
+
+  /v1/test/postQuestion/{testID}:
+    post:
+      tags:
+        - name: Test
+      summary: Posting Test Question
+      description: api will post the question in the database
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: testID
+          in: path
+          type: string 
+          required: true
+        - name: question
+          in: formData
+          type: string 
+          required: false
+        - name: questionImage
+          in: formData
+          type: file 
+          required: false
+        - name: answerImage
+          in: formData
+          type: file 
+          required: false
+        - name: answer
+          in: formData
+          type: string 
+          required: false
+        - name: answerExplaination
+          in: formData
+          type: string 
+          required: false
+      responses:
+        200:
+          description: OK
+  # /v1/test/addQuestion/{questionID}:
+  #   post:
+  #     tags:
+  #       - name: Test
+  #     summary: Edit and add (TEXT) api for test
+  #     description: add and edit api for the Questions(TEXT)
+  #     consumes:
+  #       multipart/form-data
+  #     produces:
+  #       application/json
+  #     parameters:
+  #       - name: questionID
+  #         in: path
+  #         type: string
+  #         required: false
+  #       - in: body
+  #         name: addQuestion
+  #         schema:
+  #           type: object
+  #           properties:
+  #             questionData:
+  #               in:
+
+       
+      responses:
+        200:
+          description: OK
+  /v1/test/getAllSubCategories/{offset}/{limit}:
+    get:
+      tags:
+        - name: Test
+      summary: Getting all the sub Categories
+      description: This api will get all the sub categories of the test
+      parameters:
+        - name: offset
+          type: string
+          in: path
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+
+  /v1/profile/editProfileImage/{userID}:
+    put:
+      tags:
+        - name: Profile
+      summary: PRofile Image Update
+      description: Will Update Profile Image of the user
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string 
+          required: true
+        - in: formData
+          name: profileImage
+          type: file 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/profile/updateProfileSection/{userID}:
+    put:
+      tags:
+        - name: Profile
+      summary: Update Profile
+      description: APi will update the profileImage
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: userID 
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: profile 
+          schema:
+            type: object
+            properties:
+              name: 
+                type: string
+              mobileNumber:
+                type: string
+              about:
+                type: string
+      responses:
+        200:
+          description: OK
+
+
+  /v1/referral/redeemReferral/{userID}:
+    post:
+      tags:
+        - name: Referral
+      summary: Referral Code 
+      description: Api regarding redeeming Referral
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path 
+          type: string
+          required: true
+        - in: body
+          name: Referral
+          schema:
+            type: object
+            properties:
+              referralCode:
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/profile/getProfileDetails/{userID}:
+    get:
+      tags:
+        - name: Profile
+      summary: Profile Details
+      description: Getting Basic Info Of Profile
+      parameters:
+        - name: userID 
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+
+  /v1/auth/login:
+    post:
+      tags:
+        - name: Auth
+      summary: Login System Admin Test
+      description: This api will be for the login of the admin in the test app
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - in: body
+        name: User
+        schema:
+          type: object
+          properties:
+            email:
+              type: string 
+            password:
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/category/createCategory:
+    post:
+      tags:
+        - name: Test
+      summary: Will Create Categories for the test
+      description: will generate categories regarding to the test
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - in: body
+        name: User
+        schema:
+          type: object
+          properties:
+            nameCategory:
+              type: string 
+            descriptionCategory:
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/auth/updatePassword:
+    post:
+      tags:
+        - name: Auth
+      summary: Forget password
+      description: This api will be used to Update the password in the Database
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - in: body
+        name: ForgetPassword
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            password: 
+              type: string 
+            newPassword:
+              type: string 
+      responses:
+        200:
+          description: OK
+  /v1/checkout/addCheckout/{userID}:
+    post:
+      tags:
+        - name: Checkout
+    summary: Add Checkout
+    description: Adding the checkout gor admin
+    consumes:
+      multipart/form-data
+    produces:
+      application/json
+    parameters:
+      - name: userID
+        in: path
+        type: string
+        required: true
+      - name: amount
+        in: formData
+        type: string
+        required: true        
+  /v1/category/createSubCategory/{categoryID}:
+    post:
+      tags:
+        - name: Test
+      summary: Will Create Categories for the test
+      description: will generate categories regarding to the test
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+      - name: categoryID
+        in: path
+        required: true
+      - name: imageLogo
+        in: formData
+        type: file
+        required: true
+      - name: nameSubCategory
+        in: formData
+        type: string
+        required: true
+      - name: descriptionSubCategory
+        in: formData
+        type: string
+        required: true     
+      responses:
+        200:
+          description: OK
+  /v1/contact/createQuery:
+    post:
+      tags:
+        - name: Contact
+      summary: Add the query Field
+      description: This will be the api to add contact section in the api
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - in: body
+          name: contactDetails
+          schema:
+            type: object
+            properties:
+              nameCustomer:
+                type: string
+              emailCustomer:
+                type: string
+              query:
+                type: string 
+      responses:
+        200:
+          description: OK
+  /v1/contact/getQueries:
+    get:
+      tags:
+        - name: Contact
+      summary: Getting all the Queries of the Customer
+      description: This api will get all the data of the particular user's Query in contact form
+      responses:
+        200:
+          description: OK
+
+  # /v1/test/editTest/{testID}:
+  #   post:
+  #     tags:
+  #       - name: Test
+  #     summary: Edit the data in the test 
+  #     description: This api will edit the text part present in the db
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json
+  #     parameters:
+  #     - in: body
+  #       name: User
+  #       schema:
+  #         type: object
+  #         properties:
+  #           nameCategory:
+  #             type: string            
+  #           descriptionCategory:
+  #             type: string            
+  #           negativeMarking:  
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/auth/signup:
+    post:
+      tags:
+        - name: Auth
+      summary: Signup Api 
+      description: This will be the signup api for the admin panel user in the test App
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - in: body
+        name: User
+        schema:
+          type: object
+          properties:
+            userName:
+              type: string 
+            email:
+              type: string
+            password:
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/auth/signupTest:
+    post:
+      tags:
+        - name: Auth
+      summary: Signup Api 
+      description: This will be the signup api for the admin panel user in the test App
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - in: body
+        name: User
+        schema:
+          type: object
+          properties:
+            userName:
+              type: string 
+            email:
+              type: string
+            password:
+              type: string
+      responses:
+        200:
+          description: OK
+  # /v1/auth/socialSignup:
+  #   post:
+  #     tags:
+  #       - name: Login APIS
+  #     summary: Social Signup System Admin Barber 
+  #     description: Barber will Enter details here for Making account using social media accounts
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json
+  #     parameters:
+  #     - in: body
+  #       name: User
+  #       schema:
+  #         type: object
+  #         properties:
+  #           userName:
+  #             type: string 
+  #           email:
+  #             type: string
+  #           userType:
+  #             type: string
+  #             enum: ['Google', '']
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/test/createTest/{subCategoryID}:
+    post:
+      tags: 
+        - name: Test
+      summary: Adding Test Structure First
+      description: This will be the api which will define the normal details in the test
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: subCategoryID
+          in: path
+          required: true
+          schema:
+            type: string        
+        - in: body
+          name: TestStructure
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              negativeMarking:
+                type: number
+              duration:
+                type: string
+              correctAnswerMarking:
+                type: number
+              totalMarks:
+                type: number   
+              selectedDate:
+                type: string
+              selectedTime:
+                type: string
+              testType:
+                type: string
+              minimumMarks:
+                type: number      
+      responses:
+        200:
+          description: OK
+          
+  /v1/test/editTest/{testID}:
+    post:
+      tags: 
+        - name: Test
+      summary: Adding Test Structure First
+      description: This will be the api which will define the normal details in the test
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: testID
+          in: path
+          required: true
+          schema:
+            type: string        
+        - in: body
+          name: TestStructure
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              negativeMarking:
+                type: number
+              duration:
+                type: string
+              correctAnswerMarking:
+                type: number
+              totalMarks:
+                type: number   
+              selectedDate:
+                type: string
+              selectedTime:
+                type: string
+              testType:
+                type: string
+              minimumMarks:
+                type: number      
+      responses:
+        200:
+          description: OK
+          
+        
+  # /v1/user:
+  #   post:
+  #     tags:
+  #       - name: Login APIS
+  #     summary: Barber Username check 
+  #     description: Barber will Enter userName here for Making account and it will be checked wether it can be used or not
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json
+  #     parameters:
+  #     - in: body
+  #       name: User
+  #       schema:
+  #         type: object
+  #         properties:
+  #           userName:
+  #             type: string             
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/user/emailCheck:
+  #   post:
+  #     tags:
+  #       - name: Login APIS
+  #     summary: Barber Username check 
+  #     description: Barber will Enter userName here for Making account and it will be checked wether it can be used or not
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json
+  #     parameters:
+  #     - in: body
+  #       name: User
+  #       schema:
+  #         type: object
+  #         properties:
+  #           email:
+  #             type: string             
+  #     responses:
+  #       200:
+  #         description: OK
+
+  # /v1/userData/addYTest/{userID}:
+  #   post:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Adding timeline to the barber data 
+  #     description: Here the timeline of the barber will be added in the database
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json
+  #     parameters:
+  #     - name: userID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - in: body
+  #       name: User
+  #       schema:
+  #         type: object
+  #         properties:
+  #           start:
+  #             type: string 
+  #           end:
+  #             type: string 
+  #           Week:
+  #             type: string            
+  #     responses:
+  #       200:
+  #         description: OK
+
+  # /v1/userData/addService/{userID}:
+  #   post:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Adding Name and price of the service
+  #     description: Here the name and the price will be entered in order to submit it in db
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json
+  #     parameters:
+  #     - name: userID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - in: body
+  #       name: User
+  #       schema:
+  #         type: object
+  #         properties:
+  #           name:
+  #             type: string 
+  #           price:
+  #             type: string                     
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/test/deleteQuestion/{testID}/{questionID}:
+    delete:
+      tags:
+        - name: Test
+      summary: Deletes Question
+      description: Deletes the particular question from the test    
+      parameters:
+      - name: testID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: questionID
+        in: path
+        required: true
+        schema:
+          type: string      
+      responses:
+        200:
+          description: OK
+  # /v1/userData/editService/{userID}/{id}:
+  #   post:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Edit Service Barber
+  #     description: Edits only the data part of the service. Note that the id corresponds to the service id 
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json    
+  #     parameters:
+  #     - name: userID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: id
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string  
+  #     - in: body
+  #       name: editService
+  #       schema:
+  #         type: object
+  #         properties:
+  #           name:
+  #             type: string 
+  #           price:
+  #             type: string         
+            
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/userData/editTimeLine/{userID}/{id}:
+  #   post:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Edit Timeline Barber
+  #     description: Edits only the data part of the service. Note that the id corresponds to the service id 
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json    
+  #     parameters:
+  #     - name: userID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: id
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string  
+  #     - in: body
+  #       name: editService
+  #       schema:
+  #         type: object
+  #         properties:
+  #           start:
+  #             type: string 
+  #           end:
+  #             type: string   
+  #           Week:
+  #             type: string      
+            
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/userData/deleteServiceImage/{userID}/{serviceID}/{imageID}:
+  #   delete:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Delete Service Image
+  #     description: Delete the service image of particular id         
+  #     parameters:
+  #     - name: userID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: serviceID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string 
+  #     - name: imageID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string     
+            
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/userData/customerStatusUpdate/{userID}/{customerID}:
+  #   post:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Updating the customer Status 
+  #     description: Updating the Customer Status as Confirmed Pending Rejected or Completed and Que management
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json    
+  #     parameters:
+  #     - name: userID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: customerID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string  
+  #     - in: body
+  #       name: editService
+  #       schema:
+  #         type: object
+  #         properties:
+  #           statusBarber:
+  #             type: string 
+                       
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/userData/addQue/{barberID}:
+  #   post:
+  #     tags:
+  #       - name: Barber Details APIS
+  #     summary: Adding Que By Barber 
+  #     description: Que will be number
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json    
+  #     parameters:
+  #     - name: barberID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string     
+  #     - in: body
+  #       name: queAdditon
+  #       schema:
+  #         type: object
+  #         properties:
+  #           confirmedQue:
+  #             type: number 
+                       
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/customer/addBooking/{barberID}/{serviceID}:
+  #     post:
+  #       tags:
+  #         - name: Bookings for the Barber
+  #       summary: Bookings
+  #       description: This will be added by the customer
+  #       consumes:
+  #         application/json
+  #       produces:
+  #         application/json    
+  #       parameters:
+  #       - name: barberID
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string  
+  #       - name: serviceID
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string   
+  #       - in: body
+  #         name: Bookings 
+  #         schema:
+  #           type: object
+  #           properties:
+  #             nameCustomer:
+  #               type: string
+  #             emailCustomer:
+  #               type: string 
+  #             mobileCustomer:
+  #               type: string
+  #             commentsCustomer:
+  #               type: string 
+  #             date:
+  #               type: string 
+  #             time: 
+  #               type: string
+                        
+  #       responses:
+  #         200:
+  #           description: OK
+  /v1/admin/getAllStudentsReferral/{offset}/{limit}:
+    get:
+      tags:
+        - name: Referral
+      summary: Student With Referral 
+      description: Get all the students with the referral 
+      parameters:
+        - in: path
+          name: offset
+          type: integer
+          required: true
+        - in: path 
+          name: limit 
+          type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/admin/deleteStudent/{studentID}:
+    delete:
+      tags:
+        - name: Student
+      summary: Delete student 
+      description: APi that deleted student 
+      parameters:
+        - name: studentID 
+          in: path
+          type: string 
+          required: true 
+      responses:
+        200:
+          description: OK
+  /v1/admin/getAllStudentsWithoutReferral/{offset}/{limit}:
+    get:
+      tags:
+        - name: Student
+      summary: Student With without Referral 
+      description: lorem is the one
+      parameters:
+        - name: offset
+          in: path
+          required: true 
+          type: integer
+        - name: limit
+          in: path
+          required: true 
+          type: integer
+      responses:
+        200:
+          description: OK
+  /v1/admin/getAllStudents/{studentID}:
+    get:
+      tags:
+        - name: Student
+      summary: STudent By ID 
+      description: Will get all the bookings of the specified Student imageID
+      parameters:
+        - name: studentID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+  /v1/admin/getAllStudents/{offset}/{limit}:
+    get:
+      tags: 
+        - name: Student
+      summary: Getting ALl Students
+      description: Api will get all Students      
+      parameters:
+        - in: path
+          name: offset
+          required: true
+          type: integer
+        - in: path
+          name: limit
+          type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+  # /v1/customer/bookings/{barberID}/{status}:
+  #   get:
+  #     tags:
+  #       - name: Bookings for the Barber
+  #     summary: Get Bookings Of Barber by status
+  #     description: Will get all the bookings of the specified Barber id and status
+  #     parameters:
+  #       - name: barberID
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: status
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/customer/bookingsGreater/{barberID}/{status}:
+  #   get:
+  #     tags:
+  #       - name: Bookings for the Barber
+  #     summary: Get Bookings Of Barber greater Than date.now()
+  #     description: Will get all the bookings of the specified Barber id and date
+  #     parameters:
+  #       - name: barberID
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: status
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/customer/bookingsLesser/{barberID}/{status}:
+  #   get:
+  #     tags:
+  #       - name: Bookings for the Barber
+  #     summary: Get Bookings Of Barber less than Date.now()
+  #     description: Will get all the bookings of the specified Barber id and date
+  #     parameters:
+  #       - name: barberID
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: status
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/customer/bookingsDate/{barberID}/{date}:
+  #   get:
+  #     tags:
+  #       - name: Bookings for the Barber
+  #     summary: Get Bookings Of Barber of Particular Date
+  #     description: Will get all the bookings of the specified Barberif and date
+  #     parameters:
+  #       - name: barberID
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #       - name: date
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/test/getAllTests:
+    get:
+      tags:
+        - name: Test
+      summary: Get All Test
+      description: This will get all the tests in the db 
+      responses:
+        200:
+          description: OK
+
+  # v1/test/createTest:
+  #   post:
+  #     tags:
+  #       - name: Barber Info Additon
+  #     summary: Barber Details 
+  #     description: Details of the barber will be added here
+  #     consumes:
+  #       multipart/form-data
+  #     produces:
+  #       application/json
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         required: true 
+  #         description: Id path will be Here
+  #       - name: shopName
+  #         in: formData
+  #         type: string
+  #         required: true 
+  #         description: shopName will be here
+  #       - name: mobileNumber
+  #         in: formData
+  #         type: string 
+  #         required: true 
+  #         description: Mobile Number of the customer
+  #       - name: customerName
+  #         in: formData
+  #         type: string 
+  #         required: true
+  #         description: Name of the customer
+  #       - name: shopAddress
+  #         in: formData
+  #         type: string 
+  #         required: true 
+  #         description: SHop Address of the shop
+  #       - name: logo
+  #         in: formData
+  #         type: file 
+  #         required: true 
+  #         description: logo file (img, jpeg, jpg)
+  #       - name: banner
+  #         in: formData
+  #         type: file 
+  #         required: true 
+  #         description: banner file (img, jpeg, jpg)
+  #     responses:
+  #       200:
+  #         description: OK
+
+
+  # /v1/test/postQuestion/textOption/{testid}:
+  #   post:
+  #     tags:
+  #       - name: Test
+  #     summary: Posting Questions
+  #     description: Posting the questions on the Test where options are text
+  #     consumes:
+  #       multipart/form-data
+  #     produces:
+  #       application/json
+  #     parameters:
+  #       - name: testid
+  #         in: path
+  #         required: true
+  #         description: End point ID of the url        
+  #       - name: question
+  #         in: formData
+  #         type: string          
+  #         description: Question {Text Format}
+  #       - name: answer
+  #         in: formData
+  #         type: string
+  #         description: Answer of the question {Text Format}
+  #       - name: questionImage
+  #         in: formData
+  #         type: file          
+  #         description: If question is image 
+  #       - name: answerImage
+  #         in: formData
+  #         type: file          
+  #         description: If answer is image
+  #       - name: answerExplaination
+  #         in: formData
+  #         type: string          
+  #         description: If answer is image
+  #       - name: option1
+  #         in: formData
+  #         type: string          
+  #         description: Option1
+  #       - name: option2
+  #         in: formData
+  #         type: string          
+  #         description: Option2
+  #       - name: option3
+  #         in: formData
+  #         type: string          
+  #         description: Option3
+  #       - name: option4
+  #         in: formData
+  #         type: string          
+  #         description: Option4            
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/auth/getAllTeachersById/{teacherID}:
+    get:
+      tags:
+        - name: Teacher
+      summary: Get Teacher By ID 
+      description: This api will provide the teacher details and and there bank details
+      parameters:
+        - name: teacherID
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/test/getTest/{testID}:
+    get:
+      tags:
+        - name: Test
+      summary: Getting Test By ID 
+      description: Will get the test By ID 
+      parameters:
+        - name: testID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  
+  /v1/bank/getAllBankAccount/{offset}/{limit}:
+    get:
+      tags:
+        - name: Bank
+      summary: Get all Bank Details
+      description: This api will give all the bank details
+      parameters:
+        - name: offset
+          in: path
+          type: integer
+          required: true
+        - name: limit
+          in: path
+          type: integer
+          required: true
+
+      responses:
+        200:
+          description: OK
+
+  /v1/category/getAllCategories/{offset}/{limit}:
+    get:
+      tags:
+        - name: Test
+      summary: Get all Categories
+      description: APi will get all the test Categories
+      parameters:
+        - name: offset
+          in: path
+          type: integer
+          required: true
+        - name: limit
+          in: path
+          type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/bank/getAllBankAccount/teachers:
+    get:
+      tags:
+        - name: Bank
+      summary: Teacher Accounts
+      description: Get all the teachers account
+      responses:
+        200:
+          description: OK
+
+  # /v1/test/postQuestion/fileOption/{testid}:
+  #   post:
+  #     tags:
+  #       - name: Test
+  #     summary: Posting Questions
+  #     description: Posting the questions on the Test where options are Image formats
+  #     consumes:
+  #       multipart/form-data
+  #     produces:
+  #       application/json
+  #     parameters:
+  #       - name: testid
+  #         in: path
+  #         required: true
+  #         description: End point ID of the url            
+  #       - name: question
+  #         in: formData
+  #         type: string          
+  #         description: Question {Text Format}
+  #       - name: answer
+  #         in: formData
+  #         type: string
+  #         description: Answer of the question {Text Format}
+  #       - name: questionImage
+  #         in: formData
+  #         type: file          
+  #         description: If question is image 
+  #       - name: answerImage
+  #         in: formData
+  #         type: file          
+  #         description: If answer is image
+  #       - name: answerExplanation
+  #         in: formData
+  #         type: string          
+  #         description: If answer is image
+  #       - name: option1
+  #         in: formData
+  #         type: file          
+  #         description: Option1
+  #       - name: option2
+  #         in: formData
+  #         type: file          
+  #         description: Option2
+  #       - name: option3
+  #         in: formData
+  #         type: file          
+  #         description: Option3
+  #       - name: option4
+  #         in: formData
+  #         type: file          
+  #         description: Option4            
+  #     responses:
+  #       200:
+  #         description: OK
+  /v1/test/editQuestionFile/{questionID}:
+    post:
+      tags:
+        - name: Test
+      summary: Edit Questions
+      description: Editing the questions on the Test where options are Image formats
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: questionID
+          in: path
+          required: true
+          description: End point ID of the url            
+        - name: question
+          in: formData
+          type: string          
+          description: Question {Text Format}
+        - name: answer
+          in: formData
+          type: string
+          description: Answer of the question {Text Format}
+        - name: questionImage
+          in: formData
+          type: file          
+          description: If question is image 
+        - name: answerImage
+          in: formData
+          type: file          
+          description: If answer is image
+        - name: answerExplaination
+          in: formData
+          type: string          
+          description: If answer is image
+        - name: option1
+          in: formData
+          type: file          
+          description: Option1
+        - name: option2
+          in: formData
+          type: file          
+          description: Option2
+        - name: option3
+          in: formData
+          type: file          
+          description: Option3
+        - name: option4
+          in: formData
+          type: file          
+          description: Option4            
+      responses:
+        200:
+          description: OK
+    
+
+  # /v1/userData/addServiceImage/{userID}/{serviceID}:
+  #   post:
+  #     tags:
+  #       - name: Barber Info Addition
+  #     summary: Add Service Image
+  #     description: Will add the service image of the particular service id
+  #     consumes:
+  #       multipart/form-data
+  #     produces:
+  #       multipart/form-data
+  #     parameters:
+  #       - name: userID
+  #         in: path
+  #         required: true
+  #         description: End point ID of the url        
+  #       - name: serviceID
+  #         in: path
+  #         required: true
+  #         description: End point ID of the url        
+  #       - name: serviceImage
+  #         in: formData
+  #         type: string
+  #         required: false
+  #         description: Service image url if Default
+  #       - name: image
+  #         in: formData
+  #         type: file
+  #         required: false 
+  #         description: Image file if userselected
+        
+  #     responses:
+  #       200:
+  #         description: OK
+  # /v1/reviews/addReview/{bookingID}/{barberID}:
+  #   post:
+  #     tags:
+  #       - name: Add Reviews
+  #     summary: Adding Reviews
+  #     description: Adds the reviews for the barber
+  #     consumes:
+  #       application/json
+  #     produces:
+  #       application/json    
+  #     parameters:
+  #     - name: 
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string
+  #     - name: barberID
+  #       in: path
+  #       required: true
+  #       schema:
+  #         type: string  
+  #     - in: body
+  #       name: editService
+  #       schema:
+  #         type: object
+  #         properties:
+  #           stars:
+  #             type: string 
+  #           comment:
+  #             type: string                      
+  #     responses:
+  #       200:
+  #         description: OK          
+  /v1/test/getAllQuestions:
+    get:
+      tags:
+        - name: Test
+      summary: Getting all Questions present
+      description: This will get all the questions present in the database      
+      responses:
+        200:
+          description: OK
+  /v1/auth/getAllTeachers/{offset}/{limit}:
+    get:
+      tags:
+        - name: Teacher
+      summary: Getting all Teachers present
+      description: This will get all the teachers present in the database 
+      parameters:
+        - name: offset
+          in: path
+          type: integer
+          required: true
+        - name: limit
+          in: path
+          type: integer
+          required: true              
+      responses:
+        200:
+          description: OK
+  /v1/bank/addBankAccount/{userID}:
+    post:
+      tags:
+        - name: Bank
+      summary: APi for Bank Crud
+      description: This api will be used to add bank details to the user
+      consumes:
+        application/json
+      produces: 
+        application/json
+      parameters:
+      - name: userID 
+        in: path
+        type: string 
+        required: true 
+        description: userID of the user for bank details updation
+      - in: body
+        name: addBankAccount 
+        schema:
+          type: object
+          properties:
+            accountNumber:
+              type: string 
+            ifsc: 
+              type: string 
+            accountHolder:
+              type: string 
+            bankName: 
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/bank/editBankAccount/{userID}:
+    post:
+      tags:
+        - name: Bank
+      summary: APi for Bank Crud
+      description: This api will be used to add bank details to the user
+      consumes:
+        application/json
+      produces: 
+        application/json
+      parameters:
+      - name: userID 
+        in: path
+        type: string 
+        required: true 
+        description: userID of the user for bank details updation
+      - in: body
+        name: addBankAccount 
+        schema:
+          type: object
+          properties:
+            accountNumber:
+              type: string 
+            ifsc: 
+              type: string 
+            accountHolder:
+              type: string 
+            bankName: 
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/otp/getotp/{email}:
+    put:
+      tags:
+        - name: Auth
+      summary: Generate OTP
+      description: APi will be used to generate otps
+      produces:
+        application/json
+      parameters:
+        - name: email 
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/otp/otpVerify/{email}:
+    post:
+      tags:
+        - name: Auth
+      summary: Verify OTP
+      description: This api will be used to verify the otps
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: email
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: OTP
+          schema:
+            type: object
+            properties:
+              otp:
+                type: string 
+      responses:
+        200:
+          description: OK
+
+            
+  /v1/test/importQuestion/{testID}/{questionID}:
+    put:
+      tags:
+        - name: Test
+      summary: Import QUestions
+      description: This api will import the questions in the test
+      parameters:
+        - name: testID
+          in: path
+          type: string 
+          description: Test ID where the questions are imported
+          required: true
+        - name: questionID 
+          in: path
+          type: string 
+          description: Question ID where we will find question and import it to the test
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/admin/createStudent:
+    post:
+      tags:
+        - name: Student
+      summary: Adding Students
+      description: Api will be used to add students in the db
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - in: body
+          name: student
+          schema:
+            type: object
+            properties:
+              userName: 
+                type: string 
+              email: 
+                type: string 
+              password: 
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/referral/getAllTransaction:
+    get:
+      tags:
+        - name: Transaction
+      summary: Get All Transactions 
+      description: APi will get all the transactions 
+      responses:
+        200:
+          description: OK
+  /v1/referral/getAllTeacherTransaction:
+    get:
+      tags:
+        - name: Transaction
+      summary: Teacher Transactions 
+      description: APi that give teacher transactions 
+      responses:
+        200:
+          description: OK
+  /v1/bank/getBankDetails/{userID}:
+    get:
+      tags:
+        - name: Bank
+      summary: Bank Details By Id
+      description: APi will give the bank details by id 
+      parameters:
+        - name: userID
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/referral/referredStudent/{teacherID}:
+    get:
+      tags:
+        - name: Referral
+      summary: Get Referred students
+      description: Get all the referred students of a particular id 
+      parameters:
+        - name: teacherID 
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  
+  /v1/referral/getTransactionByID/{transactionID}:
+    get:
+      tags:
+        - name: Transaction
+      summary: Trnasaction BY id 
+      description: Get Transactions BY ID 
+      parameters:
+        - name: transactionID
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/referral/getTransactionTeacher/{teacherID}:
+    get:
+      tags:
+        - name: Transaction 
+      summary: Transaction Teacher by ID 
+      description: lorem
+      parameters:
+        - name: teacherID 
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/contact/deleteQuery/{queryID}:
+    delete:
+      tags:
+        - name: Contact
+      summary: Delete Query
+      description: This api will delete query according the query id 
+      parameters:
+        - name: queryID
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+
+    /v1/admin/getAllStudents/{studentID}:
+      get:
+        tags:
+          - name: Student
+        summary: Student By ID 
+        description: Api will give all the student by there id
+        parameters:
+          - name: studentID 
+            in: path
+            type: string 
+            required: true 
+        responses:
+          200:
+            description: OK
+
+  /v1/auth/changeStatus/{userID}:
+    put:
+      tags:
+        - name: Admin
+      summary: Change Status User
+      description: This api will change the status of the user to false
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: statusChange
+          properties:
+            status: 
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/referral/getAllReferrals:
+    get:
+      tags:
+        - name: Referral
+      summary: Referral Code 
+      description: Api for givind all the referral code 
+      responses:
+        200:
+          description: OK
+  /v1/contact/postReply/{queryID}: 
+    post:
+      tags:
+        - name: Contact
+      summary: Add Reply
+      description: This api will add the reply to the customer
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: queryID
+          in: path
+          type: string 
+          required: true 
+        - in: body
+          name: Reply
+          properties:
+            reply:
+              type: string
+      responses:
+        200:
+          description: OK
+  /v1/admin/deleteTeacher/{teacherID}:
+    delete:
+      tags: 
+        - name: Teacher
+      summary: Delete Teacher
+      description: This api will delete the teacher 
+      parameters:
+        - name: teacherID
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/profile/profileUser/{userID}:
+    post:
+      tags:
+        - name: Profile
+      summary: Profile Database
+      description: APi will be used to update profile Database
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: userID 
+          in: path
+          type: string
+          required: true
+        - in: formData
+          name: profileImage
+          type: file
+          description: Profile Photo of the user
+        - in: formData
+          name: name
+          type: string 
+          description: name of the customer
+        - in: formData
+          name: mobileNumber
+          type: string 
+          description: Phone Number of the customer
+        - in: formData
+          name: about
+          type: string 
+          description: about of the customer
+      responses:
+        200:
+          description: OK
+    
+
+
+  /v1/admin/createTeacher:
+    post:
+      tags: 
+        - name: Teacher
+      summary: Adding Teachers
+      description: Adding teachers to the Database of auth By the Admin
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - in: body
+        name: User
+        schema:
+          type: object
+          properties:
+            userName:
+              type: string 
+            email:
+              type: string
+            password:
+              type: string
+            commisionPercent:
+              type: string
+      responses:
+        200:
+          description: OK
+
+
+
+
+
+
+
+
+      
+
+
+
+        
+
+
+
+
+  
+
+
+      
+      
+    
+ 
