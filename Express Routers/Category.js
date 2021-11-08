@@ -9,8 +9,8 @@ const { Test } = require("../models/Test");
 const { Tag } = require("../models/Tags");
 
 router.post("/createCategory", async (req, res) => {
-	const { nameCategory, descriptionCategory, tagID } = req.body;
-	const data = { nameCategory, descriptionCategory, tags: tagID };
+	const { nameCategory, descriptionCategory, tagIDs } = req.body;
+	const data = { nameCategory, descriptionCategory, tags: tagIDs };
 
 	// const resultFromJoi = categoryValidator(
 	// 	"nameCategory descriptionCategory",
@@ -378,6 +378,42 @@ router.get("/getCategoryByTagId/:tagID", async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
+	}
+});
+
+// update Category
+router.patch("/updateCategory/:categoryID", async (req, res) => {
+	// Checking if updates are valid
+	const updates = Object.keys(req.body);
+	const allowableUpdates = [
+		"nameCategory",
+		"subCategory",
+		"descriptionCategory",
+		"tags",
+	];
+	const isValidUpdate = updates.every((update) =>
+		allowableUpdates.includes(update)
+	);
+	if (!isValidUpdate) return res.status(400).json({ error: "Invalid Update." });
+
+	// Update Category
+	try {
+		const category = await Category.findOneAndUpdate(
+			{ _id: req.params.categoryID },
+			req.body,
+			{ runValidators: true, new: true }
+		);
+
+		res.status(500).json({
+			status: true,
+			message: "Edited Successfully",
+			category: category,
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: false,
+			error: "Update Validator Failed",
+		});
 	}
 });
 

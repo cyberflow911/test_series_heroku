@@ -6,7 +6,9 @@ const Categories = new Schema(
 	{
 		nameCategory: {
 			type: String,
-			default: "",
+			required: true,
+			minlength: 3,
+			unique: true,
 		},
 		subCategory: [
 			{
@@ -16,7 +18,8 @@ const Categories = new Schema(
 		],
 		descriptionCategory: {
 			type: String,
-			default: "",
+			required: true,
+			minlength: 5,
 		},
 		tags: [
 			{

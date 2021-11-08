@@ -1262,8 +1262,43 @@ paths:
               type: string 
             descriptionCategory:
               type: string
-            tagID:
+            tagIDs:
+              type: array
+              items:
+                tagID:
+                  type: string
+      responses:
+        200:
+          description: OK
+  /v1/category/updateCategory/{categoryID}:
+    patch:
+      tags:
+        - name: Test
+      summary: Will Update Categories for the test
+      description: UpdateCategory
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+      - name: categoryID
+        in: path
+        type: string
+        required: true
+      - name: Category
+        in: body
+        schema:
+          type: object
+          properties:
+            nameCategory:
+              type: string 
+            descriptionCategory:
               type: string
+            tagIDs:
+              type: array
+              items:
+                tagID:
+                  type: string
       responses:
         200:
           description: OK
