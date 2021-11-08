@@ -9,6 +9,14 @@ const Categories = new Schema(
            type: String,
            default: ''
        },
+       subCategory:       
+
+       [
+           {
+               type: Schema.Types.ObjectId,
+               ref: 'subCategory'
+           }
+       ],
        descriptionCategory:
        {
            type: String,

@@ -23,10 +23,12 @@ router.post('/redeemReferral/:userID', async(req, res)=>
                 }
             )
         }
-        
+
         else 
         {
+            console.log(checkReferral);
             const userReferral = await Admin.findOne({_id:checkReferral.userID});
+            
             const userMain = await Admin.findOne({_id: req.params.userID});
             
             const user = await Admin.findOne({$and:[{_id: req.params.userID}, {referralStatus: true}]}
@@ -34,11 +36,20 @@ router.post('/redeemReferral/:userID', async(req, res)=>
               
             if(user || !userReferral)
             {
-                
+             
                 res.status(200).json(
                     {
                         status: false,
                         message : 'Referral Code Already Used'
+                    }
+                )
+            }
+            else if(userReferral.isActive === false)
+            {
+                res.status(200).json(
+                    {
+                        status: false,
+                        message: "This Referral is Blocked!!!"
                     }
                 )
             }
@@ -76,6 +87,7 @@ router.post('/redeemReferral/:userID', async(req, res)=>
                                 email: checkReferral.email,
                                 userType: checkReferral.userType,
                                 previousWallet: 0,
+                                transactionType: 'Referral',
                                 now: checkReferral.commisionPercent,
                                 comission: checkReferral.commisionPercent,
                                 studentID: req.params.userID,
@@ -165,6 +177,7 @@ router.post('/redeemReferral/:userID', async(req, res)=>
                                 wallet: transaction.wallet + checkReferral.commisionPercent,
                                 userID: checkReferral.userID,
                                 email: checkReferral.email,
+                                transactionType: 'Referral',
                                 userType: checkReferral.userType,
                                 previousWallet: transaction.wallet,
                                 now: transaction.wallet + checkReferral.commisionPercent,
@@ -223,6 +236,76 @@ router.post('/redeemReferral/:userID', async(req, res)=>
         
         console.log(error);
     }
+})
+
+
+//getting all the referred Students of particular Teacher ID
+
+router.get('/getReferredStudents/:teacherID/:offset/:limit', async(req, res)=>
+{
+    try {
+
+        const limit = parseInt(req.params.limit);
+        const offset = (parseInt(req.params.offset -1)* limit)
+        //check TeacherID
+        const teacherCheck = await Admin.findOne({$and:[{_id: req.params.teacherID}, {typeUser: 1}]});
+        if(!teacherCheck)
+        {
+            res.status(404).json(
+                {
+                    status: false,
+                    message: "Teacher Not Found"
+                }
+            )
+        }
+        else 
+        {
+            var start = new Date();
+            const startOfToday = start.setUTCHours(0,0,0,0);
+        
+            var end = new Date();
+                const endOfToday= end.setUTCHours(23,59,59,999);
+            
+            const today = await Transaction.find({$and: [{userID: req.params.teacherID},{TransactionType: 'Referral'},{createdAt: {$gte: startOfToday, $lt: endOfToday}}]})
+            const week = await Transaction.find({$and: [
+                {
+                    userID: req.params.teacherID
+                }, 
+                {
+                    TransactionType: 'Referral'
+
+                }, 
+                {
+                    createdAt: {
+                        $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000)
+                    }
+
+                }
+            ]})
+            const month = await Transaction.find({$and: [
+                {
+                    userID: req.params.teacherID
+                }, 
+                {
+                    TransactionType: 'Referral'
+
+                }, 
+                {
+                    createdAt: {
+                        $gte: new Date(new Date() - 30 * 60 * 60 * 24 * 1000)
+                    }
+
+                }
+            ]})
+
+        }
+        
+        
+    } catch (error) {
+        
+        console.log(error);
+    }
+
 })
 
 // router.post('/testTrans/:studentID', async(req, res)=>
@@ -562,7 +645,10 @@ router.get('/getAllTeacherTransaction', async(req, res)=>
 router.get('/getTransactionTeacher/:teacherID', async (req, res)=>
 {
     try {
-        const transaction = await Transaction.find({userID: req.params.teacherID});
+        const transaction = await Transaction.find({userID: req.params.teacherID}, {}, {sort:
+        {
+            'createdAt': -1
+        }});
         console.log(transaction);
         if(!transaction)
         {
@@ -578,7 +664,7 @@ router.get('/getTransactionTeacher/:teacherID', async (req, res)=>
             res.status(200).json(
                 {
                     status: true,
-                    message: 'Teacher Found',
+                    message: 'User Found',
                     transaction: transaction
                 }
             )

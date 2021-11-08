@@ -13,7 +13,7 @@ info:
 
 schemes: [http, https]
 
-paths:
+paths:     
   /v1/userData/test:
     get:
       tags:
@@ -64,11 +64,598 @@ paths:
   #   responses:
   #     200:
   #       description: OK
+  /v1/test/testAddQuestion/{testID}:
+    post:
+      tags:
+        - name: Test
+      summary: Addign Questions
+      description: Adding Question to the Test
+      parameters:
+        - name: questionBody
+          in: body
+          schema:
+            type: object
+            properties:
+              question:
+                type: string
+              answer:
+                type: string
+              answerExplanation: 
+                type: string
+              options:
+                - name: optionsBody
+                  in: body
+                  schema:
+                    type: array
+                    properties:
+                      optionType: 
+                        type: string
+                      option: 
+                        type: string
+      responses:
+        200:
+          description: OK
+  /v1/payout/purchasedTests/{userID}:
+    get:
+      tags:
+        - name: Payout
+      summary: Getting the tests and subcategories of the user
+      description: lorem
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/analytics/getCountSubCategory/{categoryID}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Getting count of SUb Categories of a particular id
+      description: lorem
+      parameters:
+        - name: categoryID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/analytics/getAllReferredStudents/{teacherID}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Get Referrred Students
+      description: lorem
+      parameters:
+        - name: teacherID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/analytics/getStudentByDate/{teacherID}:
+    post:
+      tags:
+        - name: Analytics
+      summary: Referred Student on date
+      description: lorem
+      parameters:
+        - name: teacherID
+          in: path
+          type: string
+          required: true
+        - name: bodyData
+          in: body
+          schema:
+            type: object
+            properties:
+              date:
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/analytics/getReferredStudentsDate/{teacherID}:
+    post:
+      tags:
+        - name: Analytics
+      summary: Referred Student on date
+      description: lorem
+      parameters:
+        - name: teacherID
+          in: path
+          type: string
+          required: true
+        - name: bodyData
+          in: body
+          schema:
+            type: object
+            properties:
+              date:
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/tags/createTag:
+    post:
+      tags:
+        - name: Tags
+      summary: Creating Tags
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: tagImage
+          in: formData
+          type: file
+          required: true
+        - name: tagName
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/subject/createSubject:
+    post:
+      tags:
+        - name: Subjects
+      summary: Creating SUbjects
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        
+        - name: subjectName
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/tags/editTag/{tagID}:
+    put:
+      tags:
+        - name: Tags
+      summary: Editing Tags
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: tagID
+          in: path
+          type: string
+          required: true
+        - name: tagImage
+          in: formData
+          type: file
+          required: true
+        - name: tagName
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/subject/editSubject/{subjectID}:
+    put:
+      tags:
+        - name: Subjects
+      summary: Edit Subject
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: subjectID
+          in: path
+          type: string
+          required: true        
+        - name: subjectName
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/tags/deleteTag/{tagID}:
+    delete:
+      tags:
+        - name: Tags
+      summary: Delete Tag
+      description:: lorem
+      parameters:
+        - name: tagID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description:: OK
+  /v1/subject/deletesubject/{subjectID}:
+    delete:
+      tags:
+        - name: Subjects
+      summary: Delete Subjects
+      description: lorem
+      parameters:
+        - name: subjectID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description:: OK
+
+
+  /v1/tags/getAlltags/{offset}/{limit}:
+    get:
+      tags:
+        - name: Tags
+      summary: Getting all Tags
+      description: lorem      
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+        
+      responses:
+        200:
+          description: OK
+      
+  /v1/subject/getAllSubjects/{offset}/{limit}:
+    get:
+      tags:
+        - name: Subjects
+      summary: Getting all Subjects
+      description: lorem      
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+        
+      responses:
+        200:
+          description: OK
+      
+  
+  /v1/analytics/getStudentsAtDate/{offset}/{limit}:
+    post:
+      tags:
+        - name: Analytics
+      summary: Getting all students at a particular Date
+      description: lorem
+      parameters:
+        - name: offset 
+          in: path
+          type: string
+          required: true
+        - name: limit 
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: dates
+          schema:
+            type: object
+            properties:
+              from:
+                type: number
+              end:
+                type: number
+      responses:
+        200:
+          description: OK
+  /v1/analytics/getAllPayout/{teacherID}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Getting All checkoutsof teacher
+      description: lorem
+      parameters:
+        - name: teacherID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/admin/filterStudentResult/:page/:limit:
+    get:
+      tags:
+        - name: Students
+      summary: Get All Board By filter
+      description: APi to get all the Board by filter
+      parameters:
+        - name: searchString
+          in: query
+          type: string
+        - name: page
+          in: path
+          type: string
+        - name: limit
+          in: path
+          type: string
+        - name: status
+          in: query
+          type: string
+        - name: startDate
+          in: query
+          type: string
+        - name: endDate
+          in: query
+          type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  
+  /v1/analytics/getUsersLastWeek/{offset}/{limit}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Users Joined Last Week
+      description: Getting users joined last week
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true  
+        - name: limit
+          in: path
+          type: string
+          required: true  
+      responses:
+        200:
+          description: OK
+  /v1/banner/addBannerImage:
+    post:
+      tags:
+        - name: Banner
+      summary: Adding Banner
+      description: Adding banner to the db
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: bannerImage
+          in: formData
+          type: file
+          required: true
+        - name: bannerLink
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+ 
+  # /v1/banner/getAllBanner/{offset}/{limit}:
+  #   get:
+  #     tags:
+  #       - name: Banner
+  #     summary: Getting the banner
+  #     description: Getting all the banners
+  #     parameters:
+  #       - name: offset
+  #         in: path
+  #         type: string
+  #         required: true
+  #       - name: limit
+  #         in: path
+  #         type: string
+  #         required: true
+  #     responses:
+  #       200:
+  #         description: OK       
+   
+  /v1/analytics/getUsersLastMonth/{offset}/{limit}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Getting Users last month
+      description: Getting all the users joined last month
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK  
+  /v1/banner/getAllBanner/{offset}/{limit}:
+    get:
+      tags:
+        - name: Banner
+      summary: Getting Users last month
+      description: Getting all the users joined last month
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK  
+  /v1/banner/deleteImage/{bannerID}:
+    delete:
+      tags:
+        - name: Banner
+      summary: Deletes The Banner
+      description: This api deleted the banner 
+      parameters:
+        - name: bannerID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/payout/payoutUser/{userID}:
+    post:
+      tags:
+        - name: Payout
+      summary: Adding payout of the user
+      description: Adding payout of the userType
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: payout
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              userID:
+                type: string
+              purchaseType:
+                type: string
+                enum: ['SubCategory', 'Test Series']
+              email:
+                type: string
+              contact:
+                type: string
+              orderID:
+                type: string
+              amount:
+                type: number
+              subCategoryID:
+                type: string
+              testID:
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/payout/getAllTransaction/{offset}/{limit}:
+    get:
+      tags:
+        - name: Payout
+      summary: Getting all Transaction
+      description: lorem
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK   
+  /v1/payout/editStatusPayout/{status}/{transactionID}:
+    put:
+      tags:
+        - name: Payout
+      summary: edit Status 
+      description: lorem
+      parameters:
+        - name: transactionID
+          in: path
+          type: string
+          required: true
+        - name: status
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK  
+  /v1/checkout/updateCheckoutStatus/{userID}:
+    put:
+      tags:
+        - name: Checkout
+      summary: Update Status
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: status
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+    
+  /v1/banner/editBanner/{bannerID}:
+    put:
+      tags:
+        - name: Banner
+      summary: Update Banner
+      description: Updates the image of the banner
+      consumes: 
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: bannerID
+          in: path
+          type: string
+          required: true
+        - name: bannerImage
+          in: formData
+          type: file
+          required: true
+        - name: bannerLink
+          in: formData
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
   /v1/category/getSubCategoryByCategoryID/{categoryID}/{offset}/{limit}:
     get:
       tags:
         - name: Test
-      summary: SUb Category By category Id 
+      summary: Sub Category By category Id 
       description: Getting all the Sub Categories By Category ID
       parameters:
         - name: categoryID
@@ -86,6 +673,82 @@ paths:
       responses:
         200:
           description: OK
+  /v1/checkout/getAllCheckout/{offset}/{limit}:
+    get:
+      tags:
+        - name: Checkout
+      summary: Get all Checkout
+      description: Getting all the checkouts of the user
+      parameters:
+        - name: offset
+          in: path
+          type: string 
+          required: true
+        - name: limit
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+
+
+  /v1/test/createTestOtherLanguage/{language}/{mainTestID}/{subCategoryID}:
+    post:
+      tags:
+        - name: Test
+      summary: Create Test Other language
+      description: Api to post data in the test
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters:
+        - name: language
+          in: path
+          type: string
+          required: true
+        - name: mainTestID
+          in: path
+          type: string
+          required: true
+        - name: subCategoryID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: TestStructure
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              negativeMarking:
+                type: number
+              duration:
+                type: string
+              correctAnswerMarking:
+                type: number
+              totalMarks:
+                type: number   
+              selectedDate:
+                type: string
+              selectedTime:
+                type: string
+              testType:
+                type: string
+              price:
+                type: number
+              minimumMarks:
+                type: number      
+      responses:
+        200:
+          description: OK
+
+        
+        
   /v1/test/editQuestionData/{questionID}:
     put:
       tags:
@@ -479,6 +1142,41 @@ paths:
       responses:
         200:
           description: OK
+  /v1/checkout/getCheckoutByID/{checkoutID}:
+    get:
+      tags: 
+        - name: Checkout
+      summary: Get Checkout
+      description: lorem
+      parameters:
+        - name: checkoutID
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/checkout/addCheckout/{userID}:
+    post:
+      tags:
+        - name: Checkout
+      summary: Add Checkout
+      description: lorem
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - name: checkout
+          in: body
+          schema:
+            type: object
+            properties:
+              amount:
+                type: number
+      responses:
+        200:
+          description: OK
 
 
   /v1/referral/redeemReferral/{userID}:
@@ -592,25 +1290,25 @@ paths:
       responses:
         200:
           description: OK
-  /v1/checkout/addCheckout/{userID}:
-    post:
-      tags:
-        - name: Checkout
-    summary: Add Checkout
-    description: Adding the checkout gor admin
-    consumes:
-      multipart/form-data
-    produces:
-      application/json
-    parameters:
-      - name: userID
-        in: path
-        type: string
-        required: true
-      - name: amount
-        in: formData
-        type: string
-        required: true        
+  # /v1/checkout/addCheckout/{userID}:
+  #   post:
+  #     tags:
+  #       - name: Checkout
+  #   summary: Add Checkout
+  #   description: Adding the checkout gor admin
+  #   parameters:
+  #     - name: userID
+  #       in: path
+  #       type: string
+  #       required: true
+  #     - name: amount
+  #       in: formData
+  #       type: string
+  #       required: true  
+  #   responses:
+  #     200:
+  #       description: OK
+    
   /v1/category/createSubCategory/{categoryID}:
     post:
       tags:
@@ -640,6 +1338,136 @@ paths:
       responses:
         200:
           description: OK
+  /v1/category/editSubCategory/{subCategoryID}:
+    put:
+      tags:
+        - name: Test
+      summary: Edit Sub Category
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: subCategoryID
+          in: path
+          type: string
+          required: true
+        - name: imageLogo
+          in: formData
+          type: file
+          required: false
+        - name: subCategory
+          in: body
+          schema:
+            type: object
+            properties:
+              nameSubCategory:
+                type: string
+              descriptionSubCategory:
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/category/editCategory/{CategoryID}:
+    put:
+      tags:
+        - name: Test
+      summary: Edit Category
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: CategoryID
+          in: path
+          type: string
+          required: true
+        - name: subCategory
+          in: body
+          schema:
+            type: object
+            properties:
+              nameCategory:
+                type: string
+              descriptionCategory:
+                type: string
+      responses:
+        200:
+          description: OK
+  /v1/analytics/studentAnalytics/{offset}/{limit}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Getting Students Joined Today 
+      description: lorem
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/analytics/teacherAnalytics/{offset}/{limit}:
+    get:
+      tags:
+        - name: Analytics
+      summary: Getting Students Joined Today 
+      description: lorem
+      parameters:
+        - name: offset
+          in: path
+          type: string
+          required: true
+        - name: limit
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/analytics/changeMainContentHindi/{testID}:
+    put:
+      tags:
+        - name: Additional
+      summary: Shift To MainContent Hindi
+      description: lorem
+      parameters:
+        - name: testID
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  # /v1/analytics/getReferredStudentsDate/{teacherID}:
+  #   get:
+  #     tags:
+  #       - name: Analytics
+  #     summary: Getting Referred students
+  #     description: OK
+  #     parameters:
+  #       - name: teacherID
+  #         in: path
+  #         type: string
+  #         required: true
+  #       - name: referral
+  #         in: body
+  #         schema:
+  #           type: object
+  #           properties:
+  #             date:
+  #               type: string
+  #     responses:
+  #       200:
+  #         description: OK
+
   /v1/contact/createQuery:
     post:
       tags:
@@ -814,6 +1642,12 @@ paths:
                 type: string
               testType:
                 type: string
+              language:
+                type: string
+                
+              price:
+                type: number
+
               minimumMarks:
                 type: number      
       responses:
@@ -1476,7 +2310,7 @@ paths:
       responses:
         200:
           description: OK
-  /v1/test/getTest/{testID}:
+  /v1/test/getTest/{testID}/{language}:
     get:
       tags:
         - name: Test
@@ -1487,9 +2321,61 @@ paths:
           in: path
           type: string
           required: true
+        - name: language
+          in: path
+          type: string
+          required: true
       responses:
         200:
           description: OK
+  /v1/test/getTest/{testID}/{language}/{limitQuestion}/{offsetQuestion}:
+    get:
+      tags:
+        - name: Test
+      summary: Getting Test By ID 
+      description: Will get the test By ID 
+      parameters:
+        - name: testID
+          in: path
+          type: string
+          required: true
+        - name: language
+          in: path
+          type: string
+          required: true
+        - name: limitQuestion
+          in: path
+          type: string
+          required: true
+        - name: offsetQuestion
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/analytics/searchItems:
+    post:
+      tags:
+        - name: Search Items
+      summary: Search Items
+      description: lorem
+      consumes:
+        multipart/form-data
+      produces:
+        application/json
+      parameters:
+        - name: search
+          in: body
+          schema:
+            type: object
+            properties:
+              search:
+                type: string          
+      responses:
+        200:
+          description: OK
+
   
   /v1/bank/getAllBankAccount/{offset}/{limit}:
     get:
@@ -1714,7 +2600,21 @@ paths:
   #             type: string                      
   #     responses:
   #       200:
-  #         description: OK          
+  #         description: OK  
+  /v1/test/getTestByLanguage/{language}:
+    get:
+      tags:
+        - name: Test
+      summary: GEtting Particular Languages Test
+      description: lorem 
+      parameters:
+        - name: language
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK        
   /v1/test/getAllQuestions:
     get:
       tags:

@@ -9,12 +9,30 @@ const Tests = new Schema(
             type: String,
             min:3
         },
+            
+        
         description: {
 
             required: true,
             type: String,
             min:3
 
+        }, 
+        price:
+        {
+            type: Number,
+            default: 0
+        }, 
+        // otherLanguageID:
+        // {
+        //     type: String,
+        //     default: ''
+        // },
+        language:
+        {
+            type: String,
+            enum: ['Hindi', 'English'],
+            default: 'English'
         },
         subCategoryID:
         {
@@ -69,7 +87,23 @@ const Tests = new Schema(
             type: String,
             requireed: true
         },
+        mainContentEnglish: 
+        [
+            
+            { 
+                type: Schema.Types.ObjectId, 
+                ref: 'Question'
+            }
+        ],
         mainContent: 
+        [
+            
+            { 
+                type: Schema.Types.ObjectId, 
+                ref: 'Question'
+            }
+        ],
+        mainContentHindi: 
         [
             
             { 

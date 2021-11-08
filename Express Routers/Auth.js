@@ -60,7 +60,7 @@ router.post('/login', async (req, res)=>
       try {
 
         const admin = await Admin.findOne({email: email});
-        if(!admin)
+        if(!admin || admin.isActive === false)
         {
             res.status(200).json(
                 {
@@ -125,6 +125,10 @@ router.post('/login', async (req, res)=>
     
     
 })
+
+
+
+//updatePassword for the api
 
 router.post('/updatePassword', async (req, res)=>
 {
@@ -348,6 +352,7 @@ router.post('/signupTest', async(req, res)=>
                                         status: true,
                                         message: "User Is Created!",
                                         userName: newUser.userName,
+                                        user: newUser,
                                         email: newUser.email,
                                         referral: newUser.referral,
                                         accessToken: generateJWT(newUser)
@@ -514,6 +519,7 @@ router.post('/signup', async (req, res)=>
                         {
                             
                             email: email,
+                            userID: admin._id,
                             referralCode: referralGen,
                             commisionPercent: 50
                         }
@@ -621,6 +627,48 @@ router.post('/signup', async (req, res)=>
 
 
 })
+
+
+/***** get all Teachers by name/status/add date  *****/
+
+router.get("/filterTeacher", async (req, res) => {
+	// query object. board will be founded based on it
+	const query = {};
+
+	if (req.body.search) {
+		query.boardName = {
+			$regex: new RegExp(req.body.search.trim(), "i"),
+		};
+	}
+
+	// check if status is correct
+	if (req.body.status) {
+		const allowableStatus = ["active", "inactive"];
+		const isValidStatus = allowableStatus.includes(req.body.status.trim());
+		if (isValidStatus) query.status = req.body.status.trim();
+	}
+
+
+    query.typeUser = 1
+
+	try {
+		const teachers = await Admin.find(query);
+		if (!boards) {
+			res.status(404).json({
+				status: false,
+				message: "No Teacher is Found",
+			});
+		} else {
+			res.status(200).json({
+				status: true,
+				teachers: teachers,
+			});
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
 
 router.get('/getAllTeachers/:offset/:limit', async(req, res)=>
 {

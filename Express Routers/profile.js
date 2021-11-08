@@ -128,6 +128,7 @@ router.put('/editProfileImage/:userID',upload.fields([
     }
 ]), async(req, res)=>
 {
+    console.log(req.files.profileImage[0]);
     try {
         
         const user = await Admin.findOne({_id: req.params.userID});
@@ -146,7 +147,7 @@ router.put('/editProfileImage/:userID',upload.fields([
                 const userProfile = await Admin.updateOne({_id: req.params.userID}, 
                     {
 
-                        profile: req.files.profileImage[0].path
+                        profileImage: req.files.profileImage[0].path
 
                     })
 

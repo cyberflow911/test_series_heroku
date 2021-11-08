@@ -5,6 +5,7 @@ const {Category} = require('../models/Category');
 const { raw } = require('body-parser');
 const {subCategory} = require('../models/subCategory');
 const upload = require('../middlewares/multer');
+const { Test } = require('../models/Test');
 
 
 
@@ -188,9 +189,14 @@ router.get('/getSubCategoryByCategoryID/:categoryID/:offset/:limit', async(req, 
         }
         else 
         {
+            subCategories.forEach((element) => {
+
+
+                
+            });
             res.status(200).json(
                 {
-                    status: false,
+                    status: true,
                     message: "Subcategories Found Are",
                     subcategories: subCategories
 
@@ -217,7 +223,14 @@ router.get('/getAllCategories/:offset/:limit', async(req, res)=>
             {
                 'createdAt': -1
             }
-        }).limit(limit).skip(offset);
+        }).limit(limit).skip(offset).populate({
+            path:'subCategory',
+            options: {
+                limit: 1,
+                sort: { created: -1}
+                
+        
+            }});
         if(!categories)
         {
             res.status(200).json(
@@ -243,6 +256,122 @@ router.get('/getAllCategories/:offset/:limit', async(req, res)=>
     }
 })
 
+
+//edit CAtegory
+
+router.put('/editCategory/:categoryID', async(req,res)=>
+{
+    const {nameCategory, descriptionCategory} = req.body;
+    try {
+        const findCategory = await Category.findOne({_id: req.params.categoryID});
+        if(!findCategory)
+        {
+            res.status(404).json(
+                {
+                    status: false,
+                    message: "Category Not Found"
+                }
+            )
+        }
+        else
+        {
+            const updateCategory = await Category.updateMany({_id: req.params.categoryID}, 
+                
+                {
+                    nameCategory: nameCategory,
+                    descriptionCategory: descriptionCategory
+                })
+
+
+                const updatedCategory = await Category.findOne({_id: req.params.categoryID});
+
+
+
+                res.status(200).json(
+                    {
+                        status: true,
+                        message: "Category is Updated!!",
+                        data: updatedCategory
+                    }
+                )
+
+        }
+        
+    } catch (error) {
+        
+        console.log(error);
+    }
+})
+
+
+//edit sub Category
+router.put('/editSubCategory/:subCategoryID',upload.single('imageLogo'), async(req, res)=>
+{
+    const {nameSubCategory, descriptionSubCategory} = req.body;
+
+    try {
+
+        const findSub = await subCategory.findOne({_id: req.params.subCategoryID});
+        if(!findSub)
+        {
+            res.status(404).json(
+                {
+                    status: false,
+                    message: "Sub Category Not Found"
+                }
+            )
+        }
+        else
+        {
+            if(!req.file)
+            {
+                const updateUser = await subCategory.updateMany({_id: req.params.subCategoryID}, 
+                    {
+                        nameSubCategory: nameSubCategory,
+                        descriptionSubCategory: descriptionSubCategory
+                    })
+
+
+                    res.status(200).json(
+                        {
+                            status : true,
+                            message: "Sub Category Is Edited Successfully"
+                        }
+                    )
+                
+    
+    
+            }
+            else 
+            {
+
+                const updateSub = await subCategory.updateMany({_id: req.params.subCategoryID}, 
+                    {
+                        nameSubCategory: nameSubCategory,
+                        descriptionSubCategory: descriptionSubCategory,
+                        imageLogo: req.file.path
+
+                    })
+                    const editSub = await subCategory.findOne({_id: req.params.subCategoryID});
+                    res.status(200).json(
+                        {
+                            status : true,
+                            message: "Sub Category Is Edited Successfully",
+                            date: editSub
+                        }
+                    )
+    
+            }
+
+        }
+        
+        
+    } catch (error) {
+        
+        console.log(error);
+    }
+
+})
 
 router.post('/createSubCategory/:categoryID',upload.single('imageLogo'), async(req, res)=>
 {
@@ -299,7 +428,7 @@ router.post('/createSubCategory/:categoryID',upload.single('imageLogo'), async(r
                             nameSubCategory: nameSubCategory,
                             descriptionSubCategory: descriptionSubCategory,
                             categoryID: req.params.categoryID,
-                            imageLogo: req.file.filename
+                            imageLogo: req.file.path
                         }
                     )
         
@@ -314,8 +443,17 @@ router.post('/createSubCategory/:categoryID',upload.single('imageLogo'), async(r
                     }
                     else 
                     {
-                        console.log(category);
+                        const categoryUpdate = await Category.updateOne({_id: req.params.categoryID},
+                            {
+                                $push:
+                                {
+                                    subCategory: category._id
+                                    
+                                }
+                            })
                         await category.save()
+
+                        
                         res.status(200).json(
                             {
                                 status: true,
@@ -346,6 +484,9 @@ router.post('/createSubCategory/:categoryID',upload.single('imageLogo'), async(r
 
     
 })
+
+
+
 
 
 

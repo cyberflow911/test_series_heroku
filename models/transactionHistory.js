@@ -18,8 +18,8 @@ const Checkouts = new Schema(
       statusRequest:
       {
           type: String,
-          enum: ['PENDING', 'ACCEPTED', 'FUNDED'],
-          default: 'PENDING'
+          enum: ['Pending', 'Success'],
+          default: 'Pending'
       }
       
       

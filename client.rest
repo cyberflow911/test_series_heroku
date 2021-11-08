@@ -41,4 +41,6 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/v1/admin/otp
+GET http://localhost:3000/v1/analytics/getUsersLastMonth/1/10
+Content-Type: application/json
+

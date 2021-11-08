@@ -7,6 +7,7 @@ const {Wallet} = require('../models/Wallet');
 const {Referral} = require('../models/referral');
 const referralCode = require('../referralAlgorithm/referral');
 const {Transaction} = require('../models/Transactions');
+const paginatedResults = require('../middlewares/paginateResults')
 
 const otp = require('../otpAlgorithm/otp');
 const { required } = require('joi');
@@ -238,6 +239,50 @@ const startIndex = (parseInt(req.params.offset) - 1) * parseInt(req.params.limit
         
         console.log(error);
     }
+})
+
+
+//getall students by there name 
+
+router.get('/getStudent', async(req,res)=>
+{
+    try {
+
+        const student = await Admin.find({typeUser: 2, userName: 
+        {
+            $regex: req.body.search,
+            $options: "i"
+        }})
+
+        if(!student)
+        {
+            res.status(200).json(
+                {
+                    status: false,
+                    message: "User Not Found"
+                }
+            )
+        }
+        else 
+        {
+            res.status(200).json(
+                {
+                    status: true,
+                    data: student
+                }
+            )
+        }
+        
+    } catch (error) {
+        
+        console.log(error);
+    }
+})
+
+
+router.get('/filterStudentResult/:limit/:page',paginatedResults(Admin), async(req, res)=>
+{
+    res.send(req.results);
 })
 router.get('/getAllStudents/:studentID', async (req, res)=>
 {

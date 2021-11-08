@@ -24,6 +24,23 @@ const Admins = new Schema(
             default: 2
 
         },
+        purchasedTest:
+        [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Test'
+            }
+            
+
+        ],
+        purchasedSubCategories:
+        [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'subCategory'
+            }
+
+        ],
         profileImage:
         {
             type: String,

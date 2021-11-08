@@ -4,7 +4,7 @@ var maxSize = 1 * 1000 * 1000;
 const FileStorageEngine= multer.diskStorage({
     destination: (req, file , cb) =>
     {
-        cb(null, "public");
+        cb(null, "./images");
     },
     
     fileFilter: function(req, file, cb) {
@@ -15,7 +15,7 @@ const FileStorageEngine= multer.diskStorage({
     },
     filename: (req, file, cb)=>
     {
-        cb(null, "images/"+Date.now() + "---" + file.originalname);
+        cb(null, Date.now() + "---" + file.originalname);
     }
 
 })

@@ -9,6 +9,15 @@ const Transactions = new Schema(
            type: Number,
            default: 0
        },
+       transactionType: 
+       {
+           type: String,
+           enum: ['Referral', 'Normal', 'Redeem'],
+           default: 'Referral',
+           required: true
+
+
+       },
        userID: 
        {
            type: String,
