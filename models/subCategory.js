@@ -20,6 +20,18 @@ const subCategories = new Schema(
 			type: String,
 			required: true,
 		},
+		// subjects: [
+		// 	{
+		// 		type: Schema.Types.ObjectId,
+		// 		ref: "Subjects",
+		// 	},
+		// ],
+		// tests: [
+		// 	{
+		// 		type: Schema.Types.ObjectId,
+		// 		ref: "Test",
+		// 	},
+		// ],
 	},
 	{ timestamps: true }
 );
