@@ -47,7 +47,7 @@ const { TestHistory } = require("./models/TakenTest");
 dotenv.config();
 
 const port = process.env.PORT;
-const db = process.env.DB_LOCAL;
+const db = process.env.DB;
 
 // closing dotenev files
 console.log("Hello world");
