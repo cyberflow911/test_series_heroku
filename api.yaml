@@ -1262,6 +1262,8 @@ paths:
               type: string 
             descriptionCategory:
               type: string
+            tagID:
+              type: string
       responses:
         200:
           description: OK
@@ -2411,6 +2413,28 @@ paths:
         - name: limit
           in: path
           type: integer
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/bank/getAllBankAccount/teachers:
+    get:
+      tags:
+        - name: Bank
+      summary: Teacher Accounts
+      description: Get all the teachers account
+      responses:
+        200:
+          description: OK
+  /v1/category/getCategoryByTagId/{tagID}:
+    get:
+      tags:
+        - name: Test
+      summary: Get all Categories by Tags
+      description: APi will get all the test Categories
+      parameters:
+        - name: tagID
+          in: path
           required: true
       responses:
         200:
