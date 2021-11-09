@@ -30,6 +30,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		minimumMarks,
 		language,
 		price,
+		subjectID,
 	} = req.body;
 	const data = {
 		name,
@@ -40,6 +41,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		selectedDate,
 		selectedTime,
 		testType,
+		subjectID,
 	};
 	if (negativeMarking) {
 		negative = negativeMarking;
@@ -48,7 +50,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 	}
 
 	const resultFromJoi = testValidator(
-		"name description negativeMarking correctAnswerMarking totalMarks selectedDate selectedTime testType minimumMarks",
+		"name description negativeMarking correctAnswerMarking totalMarks selectedDate selectedTime testType minimumMarks subjectID",
 		data
 	);
 	console.log(data);
@@ -84,6 +86,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 				minimumMarks: minimumMarks,
 				language: language,
 				price: price,
+				subjectID: subjectID,
 			});
 
 			if (!test) {
@@ -1474,6 +1477,7 @@ router.post(
 					testType: testType,
 					language: req.params.language,
 					minimumMarks: minimumMarks,
+					subjectID: subjectID,
 				});
 
 				if (!test) {
@@ -2619,13 +2623,13 @@ router.post("/editTest/:testID", async (req, res) => {
 			testType,
 		};
 
-		var resultFromJoi = testValidator(
-			"name description negativeMarking correctAnswerMarking totalMarks selectedDate selectedTime testType minimumMarks",
-			data
-		);
-		console.log(resultFromJoi);
+		// var data = testValidator(
+		// 	"name description negativeMarking correctAnswerMarking totalMarks selectedDate selectedTime testType minimumMarks",
+		// 	data
+		// );
+		console.log(data);
 
-		if (!resultFromJoi) {
+		if (!data) {
 			res.status(200).json({
 				status: false,
 				message: "Validation Error!!",

@@ -716,7 +716,7 @@ paths:
       responses:
         200:
           description: OK
-  /v1/subject/getTestBySubjectID/{subjectID}/{offset}/{limit}:
+  /v1/test/getTestBySubjectID/{subjectID}/{offset}/{limit}:
     get:
       tags:
         - name: Tests
