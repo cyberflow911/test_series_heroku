@@ -305,9 +305,9 @@ router.get("/getTest/:testID", async (req, res) => {
 			message: "Please provide language (hindi/english)",
 		});
 	} else {
-		if (language === "english") {
+		if (language.toLowerCase() === "english") {
 			languageQues = "mainContentEnglish";
-		} else if (language === "hindi") {
+		} else if (language.toLowerCase() === "hindi") {
 			languageQues = "mainContentHindi";
 		}
 	}
