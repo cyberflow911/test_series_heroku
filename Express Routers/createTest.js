@@ -335,6 +335,42 @@ router.get("/getTest/:testID", async (req, res) => {
 	}
 });
 
+// get Subject by subCategoryID
+
+router.get(
+	"/getTestBySubjectID/:subjectID/:offset/:limit",
+	async (req, res) => {
+		const limit = parseInt(req.params.limit);
+		const offset = (parseInt(req.params.offset) - 1) * limit;
+		try {
+			const tests = await Test.find(
+				{ subjectID: req.params.subjectID },
+				{},
+				{
+					sort: {
+						createdAt: -1,
+					},
+				}
+			)
+				.limit(limit)
+				.skip(offset);
+			if (!tests) {
+				res.status(200).json({
+					status: false,
+					message: "Tests are Not Found",
+				});
+			} else {
+				res.status(200).json({
+					status: true,
+					tests: tests,
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+
 // router.get(
 // 	"/getTest/:testID/:language/:limitQuestion/:offsetQuestion",
 // 	async (req, res) => {

@@ -7,13 +7,12 @@ const Subjects = new Schema(
 		subjectName: {
 			type: String,
 			default: "",
+			required: true,
 		},
-		tests: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Test",
-			},
-		],
+		subCategoryID: {
+			type: Schema.Types.ObjectId,
+			ref: "subCategory",
+		},
 	},
 	{ timestamps: true }
 );

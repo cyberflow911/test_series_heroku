@@ -217,6 +217,9 @@ paths:
           in: formData
           type: string
           required: true
+        - name: subCategoryID
+          in: formData
+          type: string
       responses:
         200:
           description: OK
@@ -691,7 +694,50 @@ paths:
       responses:
         200:
           description: OK
-
+  /v1/subject/getSubjectBySubCategoryID/{subCategoryID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Subjects
+      summary: Get Subject By sub category Id 
+      description: Getting all the Subjects By Sub Category ID
+      parameters:
+        - name: subCategoryID
+          in: path
+          type: string 
+          required: true
+        - name: offset
+          in: path
+          type: string 
+          required: true
+        - name: limit
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
+  /v1/subject/getTestBySubjectID/{subjectID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Tests
+      summary: Get Tests By subject Id 
+      description: Getting all the tests By Subject ID
+      parameters:
+        - name: subjectID
+          in: path
+          type: string 
+          required: true
+        - name: offset
+          in: path
+          type: string 
+          required: true
+        - name: limit
+          in: path
+          type: string 
+          required: true
+      responses:
+        200:
+          description: OK
 
   /v1/test/createTestOtherLanguage/{language}/{mainTestID}/{subCategoryID}:
     post:

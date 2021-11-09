@@ -93,7 +93,7 @@ const Tests = new Schema(
 			type: Boolean,
 			default: false,
 		},
-		subject: {
+		subjectID: {
 			type: Schema.Types.ObjectId,
 			ref: "Subjects",
 		},
