@@ -2365,11 +2365,11 @@ paths:
       responses:
         200:
           description: OK
-  /v1/test/getTest/{testID}/{language}/{limitQuestion}/{offsetQuestion}:
+  /v1/test/getTest/{testID}:
     get:
       tags:
         - name: Test
-      summary: Getting Test By ID 
+      summary: Getting Test By ID and language with pagination 
       description: Will get the test By ID 
       parameters:
         - name: testID
@@ -2377,15 +2377,15 @@ paths:
           type: string
           required: true
         - name: language
-          in: path
+          in: query
           type: string
           required: true
-        - name: limitQuestion
-          in: path
+        - name: offset
+          in: query
           type: string
           required: true
-        - name: offsetQuestion
-          in: path
+        - name: limit
+          in: query
           type: string
           required: true
       responses:

@@ -68,7 +68,7 @@ const Tests = new Schema(
 		},
 		duration: {
 			type: String,
-			requireed: true,
+			required: true,
 		},
 		mainContentEnglish: [
 			{
