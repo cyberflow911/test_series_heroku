@@ -1727,6 +1727,8 @@ paths:
                 type: string
               language:
                 type: string
+              subjectID: 
+                type: string
                 
               price:
                 type: number
