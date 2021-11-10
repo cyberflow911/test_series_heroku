@@ -2395,24 +2395,24 @@ paths:
       responses:
         200:
           description: OK
-  /v1/test/getTest/{testID}/{language}:
-    get:
-      tags:
-        - name: Test
-      summary: Getting Test By ID 
-      description: Will get the test By ID 
-      parameters:
-        - name: testID
-          in: path
-          type: string
-          required: true
-        - name: language
-          in: path
-          type: string
-          required: true
-      responses:
-        200:
-          description: OK
+  # /v1/test/getTest/{testID}/{language}:
+  #   get:
+  #     tags:
+  #       - name: Test
+  #     summary: Getting Test By ID 
+  #     description: Will get the test By ID 
+  #     parameters:
+  #       - name: testID
+  #         in: path
+  #         type: string
+  #         required: true
+  #       - name: language
+  #         in: path
+  #         type: string
+  #         required: true
+  #     responses:
+  #       200:
+  #         description: OK
   /v1/test/getTest/{testID}:
     get:
       tags:

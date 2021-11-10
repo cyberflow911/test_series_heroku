@@ -240,49 +240,49 @@ router.get("/getQuestionByID/:questionID", async (req, res) => {
 		console.log(error);
 	}
 });
-router.get("/getTest/:testID/:language", async (req, res) => {
-	if (req.params.language === "English") {
-		try {
-			const test = await Test.findOne({ _id: req.params.testID }).populate(
-				"mainContentEnglish"
-			);
+// router.get("/getTest/:testID/:language", async (req, res) => {
+// 	if (req.params.language === "English") {
+// 		try {
+// 			const test = await Test.findOne({ _id: req.params.testID }).populate(
+// 				"mainContentEnglish"
+// 			);
 
-			if (!test) {
-				res.status(200).json({
-					status: false,
-					message: "Test not Found",
-				});
-			} else {
-				res.status(200).json({
-					status: true,
-					test: test,
-				});
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	} else {
-		try {
-			const test = await Test.findOne({ _id: req.params.testID }).populate(
-				"mainContentHindi"
-			);
+// 			if (!test) {
+// 				res.status(200).json({
+// 					status: false,
+// 					message: "Test not Found",
+// 				});
+// 			} else {
+// 				res.status(200).json({
+// 					status: true,
+// 					test: test,
+// 				});
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	} else {
+// 		try {
+// 			const test = await Test.findOne({ _id: req.params.testID }).populate(
+// 				"mainContentHindi"
+// 			);
 
-			if (!test) {
-				res.status(200).json({
-					status: false,
-					message: "Test not Found",
-				});
-			} else {
-				res.status(200).json({
-					status: true,
-					test: test,
-				});
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	}
-});
+// 			if (!test) {
+// 				res.status(200).json({
+// 					status: false,
+// 					message: "Test not Found",
+// 				});
+// 			} else {
+// 				res.status(200).json({
+// 					status: true,
+// 					test: test,
+// 				});
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	}
+// });
 
 //this is testing route to get all the tests
 router.get("/getAllTest", async (req, res) => {
@@ -298,8 +298,19 @@ router.get("/getAllTest", async (req, res) => {
 router.get("/getTest/:testID", async (req, res) => {
 	const { limit, offset, language } = req.query;
 
-	const limitQues = parseInt(limit) || 10;
-	const skipQues = (parseInt(offset) - 1) * limitQues || 1;
+	let limitQues, skipQues;
+
+	if (!limit) {
+		limitQues = 10;
+	} else {
+		limitQues = parseInt(limit);
+	}
+
+	if (!offset) {
+		skipQues = 1;
+	} else {
+		skipQues = (parseInt(offset) - 1) * limitQues;
+	}
 
 	let languageQues;
 	if (!language) {
