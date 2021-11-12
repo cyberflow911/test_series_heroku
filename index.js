@@ -14,6 +14,8 @@ var cors = require("cors");
 const YAML = require("yamljs");
 const tags = require("./Express Routers/Tags");
 const subjects = require("./Express Routers/Subject");
+const sectionRoute = require("./Express Routers/Section");
+const questionRoute = require("./Express Routers/Question");
 
 const Admin = require("./Express Routers/AdminRoles");
 const checkout = require("./Express Routers/Checkout");
@@ -108,6 +110,8 @@ app.use("/v1/payout", payout);
 app.use("/v1/testHistory", testHistory);
 app.use("/v1/tags", tags);
 app.use("/v1/subject", subjects);
+app.use("/v1/section", sectionRoute);
+app.use("/v1/question", questionRoute);
 
 app.listen(port, () => {
 	console.log(`Server up and running on port ${port}`);

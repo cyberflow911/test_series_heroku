@@ -72,17 +72,19 @@ const Tests = new Schema(
 		},
 		mainContentEnglish: [
 			{
-				type: Schema.Types.ObjectId,
-				ref: "Question",
-			},
-		],
-		mainContent: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: "Question",
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Section",
+				required: true,
 			},
 		],
 		mainContentHindi: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Section",
+				required: true,
+			},
+		],
+		mainContent: [
 			{
 				type: Schema.Types.ObjectId,
 				ref: "Question",

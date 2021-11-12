@@ -195,27 +195,19 @@ router.post("/uploadFile", upload.single("upload"), async (req, res) => {
 
 router.delete("/deleteQuestion/:questionID", async (req, res) => {
 	try {
-		const question = await Question.findOne({ _id: req.params.questionID });
-		if (!question) {
-			res.status(200).json({
+		const deleteQuestion = await Question.findOneAndDelete({
+			_id: req.params.questionID,
+		});
+		if (!deleteQuestion) {
+			res.status(404).json({
 				status: false,
-				message: "Question Not Found",
+				message: "QUestion is not Found",
 			});
 		} else {
-			const deleteQuestion = await Question.findOneAndDelete({
-				_id: req.params.questionID,
+			res.status(200).json({
+				status: true,
+				message: "Question is deleted Successfully",
 			});
-			if (!deleteQuestion) {
-				res.status(200).json({
-					status: false,
-					message: "QUestion is not deleted",
-				});
-			} else {
-				res.status(200).json({
-					status: false,
-					message: "Question is deleted Successfully",
-				});
-			}
 		}
 	} catch (error) {
 		console.log(error);
@@ -285,9 +277,27 @@ router.get("/getQuestionByID/:questionID", async (req, res) => {
 // });
 
 //this is testing route to get all the tests
-router.get("/getAllTest", async (req, res) => {
+router.get("/getAllTests", async (req, res) => {
 	try {
-		const tests = await Test.find();
+		const tests = await Test.find()
+			.sort({ createdAt: -1 })
+			.populate([
+				{
+					path: "mainContentHindi",
+					populate: {
+						path: "questions",
+						model: "Question",
+					},
+				},
+				{
+					path: "mainContentEnglish",
+					populate: {
+						path: "questions",
+						model: "Question",
+					},
+				},
+			])
+			.exec();
 		res.json(tests);
 	} catch (error) {
 		console.log(error);
@@ -813,7 +823,7 @@ router.post(
 
 					res.status(200).json({
 						status: true,
-						message: "Question Is Added Sucessfully",
+						message: "Question Is Added Successfully",
 						id: addQuestion._id,
 					});
 				}
@@ -829,7 +839,6 @@ router.post(
 // router.post('/testAddQuestion/:testID', async (req,res)=>
 // {
 //     const {question, answer, answerExplanation, optionFormat} = req.body;
-
 //     const addQuestion = await new Question(req.body);
 //      if(!addQuestion)
 //      {
@@ -849,7 +858,6 @@ router.post(
 //              }
 //          )
 //      }
-
 // })
 
 router.post("/testAddQuestion/:testID", async (req, res) => {
@@ -2294,15 +2302,7 @@ router.delete(
 
 router.get("/getAllQuestions", async (req, res) => {
 	try {
-		const questions = await Question.find(
-			{},
-			{},
-			{
-				sort: {
-					createdAt: -1,
-				},
-			}
-		);
+		const questions = await Question.find({}).limit(100);
 		if (!questions) {
 			res.status(200).json({
 				status: false,
@@ -2493,34 +2493,6 @@ router.get("/getAllQuestions", async (req, res) => {
 
 //     }
 // })
-
-router.get("/getAllTests", async (req, res) => {
-	try {
-		// const test = await Test.findOne({_id: "615ff1ba9e2abb927e6a659d"}).populate('mainContent');
-		const test = await Test.find(
-			{},
-			{},
-			{
-				sort: {
-					createdAt: -1,
-				},
-			}
-		);
-		if (!test) {
-			res.status(200).json({
-				status: false,
-				message: "There Are no Tests in the Database!!",
-			});
-		} else {
-			res.status(200).json({
-				status: true,
-				tests: test,
-			});
-		}
-	} catch (error) {
-		console.log(error);
-	}
-});
 
 router.get("/getCategoriesSub/:offset/:limit", async (req, res) => {
 	const limit = parseInt(req.params.limit);

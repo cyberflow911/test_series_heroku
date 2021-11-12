@@ -3136,6 +3136,232 @@ paths:
         200:
           description: OK
 
+  
+  # section
+  /v1/section/createSection/{testID}/{language}:
+    post:
+      tags:
+        - name: Section
+      summary: Create Earing
+      description: Api to Create Earing
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: testID
+          in: path
+          type: string
+          required: true
+        - name: language
+          in: path
+          type: string
+          required: true
+        - name: sectionName
+          in: formData
+          type: string
+          required: true
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  /v1/section/deleteSectionByID/{testID}/{language}/{sectionID}:
+    delete:
+      tags:
+        - name: Section
+      summary: Delete Section
+      description: Api to Delete Section
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: testID
+          in: path
+          type: string
+          required: true
+        - name: language
+          in: path
+          type: string
+          required: true
+        - name: sectionID
+          in: path
+          type: string
+          required: true
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  /v1/section/updateSectionName/{sectionID}:
+    patch:
+      tags:
+        - name: Section
+      summary: Edit Section Name Section
+      description: Api to Edit Section Name Section
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: sectionID
+          in: path
+          type: string
+          required: true
+        - name: sectionName
+          in: formData
+          type: string
+          required: true
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  /v1/section/addQuestionIDs/{sectionID}:
+    patch:
+      tags:
+        - name: Section
+      summary: Add question ids to Section
+      description: Api to Add question ids to Section
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: sectionID
+          in: formData
+          required: true
+          type: string
+        - name: questionIDs
+          in: body
+          type: array
+          items:
+            type: string
+          required: true
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  # Questions
+  /v1/question/createManyQuestions:
+    post:
+      tags:
+        - name: Questions
+      summary: Add multiple question in a array form
+      description: Api to Add multiple question in a array form
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - in: body
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  
+  /v1/question/deleteQuestionByID/{questionID}:
+    delete:
+      tags:
+        - name: Questions
+      summary: Delete a question
+      description: Api to Delete a question
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: questionID
+          in: path
+          required: true
+          type: string
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  /v1/question/editQuestion/{questionID}:
+    patch:
+      tags:
+        - name: Questions
+      summary: Edit a question
+      description: Api to Edit a question
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: questionID
+          in: path
+          required: true
+          type: string
+        - name: testID
+          in: path
+          type: string
+        - name: question
+          in: formData
+          type: string
+        - name: optionFormat
+          in: formData
+          type: string
+        - name: answer
+          in: formData
+          type: string
+        - name: answerExplanation
+          in: formData
+          type: string
+        - name: options
+          type: string
+          in: formData
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  
 
 
 

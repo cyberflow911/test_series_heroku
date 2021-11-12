@@ -1,75 +1,65 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const Questions = new Schema(
-    {
-        testID:
-        {
-            type: String,
-            default: ''
+	{
+		testID: {
+			type: String,
+			default: "",
+		},
+		question: {
+			type: String,
+			default: "",
+		},
+		// questionData:
 
-        },
-        question:
-        {
-            type: String,
-            default: ''
-        }
-        // questionData:
-        
-        // {
-        //     inputType: 
-        //     {
-        //         type: String,
-        //         default: 'Text'
-        //     },
-        //     question: 
-        //     {
-        //         type: String,
-        //         default: ''
-        //     }
-            
-        // },
-        ,
-        optionFormat: 
-        {
-            type: String,
-            enum: ['Text', 'File'],
-            default: 'Text'
+		// {
+		//     inputType:
+		//     {
+		//         type: String,
+		//         default: 'Text'
+		//     },
+		//     question:
+		//     {
+		//         type: String,
+		//         default: ''
+		//     }
 
-        },
-        options:
-        [
-            {
-                optionType: 
-                {
-                    type: String
-                },
-                option:
-                {
-                    type: String
-                }
-                
-            }
-            
+		// },
+		optionFormat: {
+			type: String,
+			enum: ["Text", "File"],
+			default: "Text",
+		},
+		options: [
+			{
+				optionType: {
+					type: String,
+				},
+				option: {
+					type: String,
+				},
+			},
+		],
 
-        ]
+		answer: {
+			type: String,
+			default: "",
+		},
+		answerExplanation: {
+			type: String,
+			default: "",
+		},
+		sectionID: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Section",
+			required: true,
+		},
+	},
+	{ timestamps: true }
+);
 
-        ,
-       answer:
-       {
-           type: String,
-           default: ''
-       },
-       answerExplanation: 
-       {
-           type: String,
-           default: ''
-       }
-       
-    },{timestamps: true}
-)
-
-const Question = mongoose.model("Question", Questions );
+const Question = mongoose.model("Question", Questions);
 
 exports.Question = Question;
