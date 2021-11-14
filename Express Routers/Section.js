@@ -44,6 +44,48 @@ router.post("/createSection/:testID/:language", async (req, res) => {
 	}
 });
 
+router.get("/getSectionByID/:sectionID", async (req, res) => {
+	const { limit, offset } = req.query;
+
+	let limitQues, skipQues;
+
+	if (!limit) {
+		limitQues = 10;
+	} else {
+		limitQues = parseInt(limit);
+	}
+
+	if (!offset) {
+		skipQues = 1;
+	} else {
+		skipQues = (parseInt(offset) - 1) * limitQues;
+	}
+
+	try {
+		const section = await Section.findOne({ _id: req.params.sectionID })
+			.populate({
+				path: "questions",
+				options: { limit: limitQues, skip: skipQues, createdAt: -1 },
+			})
+			.exec();
+		if (!section) {
+			return res.status(404).json({
+				status: false,
+				message: "No Section found",
+			});
+		}
+		res.status(200).json({
+			status: true,
+			section: section,
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: false,
+			message: "Server Error",
+		});
+	}
+});
+
 router.delete(
 	"/deleteSectionByID/:testID/:language/:sectionID",
 	async (req, res) => {

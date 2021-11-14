@@ -53,7 +53,6 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		"name description negativeMarking correctAnswerMarking totalMarks selectedDate selectedTime testType minimumMarks subjectID",
 		data
 	);
-	console.log(data);
 
 	if (!resultFromJoi) {
 		res.status(200).json({
@@ -232,6 +231,7 @@ router.get("/getQuestionByID/:questionID", async (req, res) => {
 		console.log(error);
 	}
 });
+
 // router.get("/getTest/:testID/:language", async (req, res) => {
 // 	if (req.params.language === "English") {
 // 		try {
@@ -340,6 +340,7 @@ router.get("/getTest/:testID", async (req, res) => {
 		const test = await Test.findOne({ _id: req.params.testID }).populate([
 			{
 				path: languageQues,
+				select: "-questions",
 				options: { limit: limitQues, skip: skipQues, createdAt: -1 },
 			},
 		]);
@@ -358,6 +359,8 @@ router.get("/getTest/:testID", async (req, res) => {
 		console.log(error);
 	}
 });
+
+
 
 // get Subject by subCategoryID
 
@@ -512,6 +515,7 @@ router.post(
 		// });
 	}
 );
+
 router.post("/testArrayTextOptions/:testID/:language", async (req, res) => {
 	try {
 		const testID = await Test.findOne({ _id: req.params.testID });

@@ -19,11 +19,6 @@ const Tests = new Schema(
 			type: Number,
 			default: 0,
 		},
-		// otherLanguageID:
-		// {
-		//     type: String,
-		//     default: ''
-		// },
 		language: {
 			type: String,
 			enum: ["Hindi", "English"],
@@ -98,6 +93,30 @@ const Tests = new Schema(
 		subjectID: {
 			type: Schema.Types.ObjectId,
 			ref: "Subjects",
+		},
+		testAttempt: {
+			type: Number,
+		},
+		general: {
+			type: String,
+		},
+		sc: {
+			type: String,
+		},
+		st: {
+			type: String,
+		},
+		ews: {
+			type: String,
+		},
+		km: {
+			type: String,
+		},
+		pwd: {
+			type: String,
+		},
+		obc: {
+			type: String,
 		},
 	},
 	{ timestamps: true }

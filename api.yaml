@@ -3171,7 +3171,26 @@ paths:
           description: Invalid Credentials
         500:
           description: Internal Server Error
-
+  /v1/section/getSectionByID/{sectionID}:
+    get:
+      tags: 
+        - name: Section
+      summary: Get Section and its Question populate
+      description: Section by Id and paginated Questions
+      parameters:
+        - name: sectionID
+          in: path
+          type: string
+          required: true
+        - name: page
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: string
+      responses:
+        200:
+          description: OK
   /v1/section/deleteSectionByID/{testID}/{language}/{sectionID}:
     delete:
       tags:
