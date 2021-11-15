@@ -65,7 +65,7 @@ router.get("/getSectionByID/:sectionID", async (req, res) => {
 		const section = await Section.findOne({ _id: req.params.sectionID })
 			.populate({
 				path: "questions",
-				options: { limit: limitQues, skip: skipQues, createdAt: -1 },
+				// options: { limit: limitQues, skip: skipQues, createdAt: -1 },
 			})
 			.exec();
 		if (!section) {
