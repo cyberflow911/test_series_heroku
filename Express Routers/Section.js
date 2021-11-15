@@ -56,7 +56,7 @@ router.get("/getSectionByID/:sectionID", async (req, res) => {
 	}
 
 	if (!offset) {
-		skipQues = 1;
+		skipQues = 0;
 	} else {
 		skipQues = (parseInt(offset) - 1) * limitQues;
 	}
@@ -81,7 +81,7 @@ router.get("/getSectionByID/:sectionID", async (req, res) => {
 	} catch (error) {
 		res.status(500).json({
 			status: false,
-			message: "Server Error",
+			message: "Server Error" + error,
 		});
 	}
 });

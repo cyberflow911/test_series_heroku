@@ -2,21 +2,44 @@ const router = require("express").Router();
 const Section = require("./../models/Section");
 const { Question } = require("./../models/Questions");
 
-router.post("/createManyQuestions", async (req, res) => {
+router.post("/createManyQuestions/:sectionId", async (req, res) => {
 	const questions = req.body.questions;
 
-	Question.insertMany(questions, (err, docs) => {
+	Question.insertMany(questions, async (err, docs) => {
 		if (err) {
 			res.status(400).json({
 				status: false,
-				message: "Question not inserted",
+				message: "Question not inserted "+err,
 			});
 		}
-		res.status(201).json({
-			status: true,
-			message: "inserted successfully",
-			questions: docs,
-		});
+		const section = await Section.findOneAndUpdate(
+			{ _id: req.params.sectionId },
+			{
+				$push: {
+					questions: { $each: docs },
+				},
+			},
+			{
+				runValidators: true,
+				new: true,
+			}
+		);
+
+		if(section)
+		{
+			res.status(201).json({
+				status: true,
+				message: "inserted successfully",
+				questions: docs,
+			});
+		}else
+		{
+			res.status(400).json({
+				status: false,
+				message: "Question not inserted  into section",
+			});
+		}
+		
 	});
 });
 
