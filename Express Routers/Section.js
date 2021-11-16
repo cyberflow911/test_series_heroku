@@ -172,7 +172,12 @@ router.patch("/updateSectionName/:sectionID", async (req, res) => {
 			message: "section updated successfully",
 			section: section,
 		});
-	} catch (error) {}
+	} catch (error) {
+		res.status(500).json({
+			status: false,
+			message: "Server error",
+		});
+	}
 });
 
 router.patch("/addQuestionIDs/:sectionID", async (req, res) => {
