@@ -12,21 +12,6 @@ const Questions = new Schema(
 			type: String,
 			default: "",
 		},
-		// questionData:
-
-		// {
-		//     inputType:
-		//     {
-		//         type: String,
-		//         default: 'Text'
-		//     },
-		//     question:
-		//     {
-		//         type: String,
-		//         default: ''
-		//     }
-
-		// },
 		optionFormat: {
 			type: String,
 			enum: ["Text", "File"],
@@ -42,7 +27,6 @@ const Questions = new Schema(
 				},
 			},
 		],
-
 		answer: {
 			type: String,
 			default: "",

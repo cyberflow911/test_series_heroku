@@ -30,8 +30,6 @@ const Admins = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Test'
             }
-            
-
         ],
         purchasedSubCategories:
         [

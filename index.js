@@ -34,6 +34,7 @@ const otpapi = require("./Express Routers/otpAPI");
 const banner = require("./Express Routers/Banner");
 const payout = require("./Express Routers/Payout");
 const testHistory = require("./Express Routers/testTaken");
+const testTrack = require("./Express Routers/TakeTest");
 
 const refer = require("./Express Routers/Referrals");
 
@@ -112,6 +113,7 @@ app.use("/v1/tags", tags);
 app.use("/v1/subject", subjects);
 app.use("/v1/section", sectionRoute);
 app.use("/v1/question", questionRoute);
+app.use("/v1/track", testTrack);
 
 app.listen(port, () => {
 	console.log(`Server up and running on port ${port}`);
