@@ -1734,7 +1734,21 @@ paths:
                 type: number
 
               minimumMarks:
+                type: number  
+              general:
+                type: number
+              sc:
                 type: number      
+              st:
+                type: number      
+              ews:
+                type: number      
+              km:
+                type: number      
+              pwd:
+                type: number      
+              obc:
+                type: number     
       responses:
         200:
           description: OK
@@ -1779,7 +1793,22 @@ paths:
               testType:
                 type: string
               minimumMarks:
+                type: number 
+              general:
+                type: number
+              sc:
                 type: number      
+              st:
+                type: number      
+              ews:
+                type: number      
+              km:
+                type: number      
+              pwd:
+                type: number      
+              obc:
+                type: number      
+
       responses:
         200:
           description: OK

@@ -30,6 +30,13 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		minimumMarks,
 		language,
 		price,
+		general,
+		sc,
+		st,
+		ews,
+		km,
+		pwd,
+		obc,
 		subjectID,
 
 	} = req.body;
@@ -86,6 +93,13 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 				minimumMarks: minimumMarks,
 				language: language,
 				price: price,
+				general,
+				sc,
+				st,
+				ews,
+				km,
+				pwd,
+				obc,
 				subjectID: subjectID,
 			});
 
@@ -2599,7 +2613,14 @@ router.post("/editTest/:testID", async (req, res) => {
 			selectedTime,
 			testType,
 			minimumMarks,
-			price
+			price,
+			general,
+			sc,
+			st,
+			ews,
+			km,
+			pwd,
+			obc,
 		} = req.body;
 		var data = {
 			name,
@@ -2649,7 +2670,14 @@ router.post("/editTest/:testID", async (req, res) => {
 						selectedTime: selectedTime,
 						testType: testType,
 						minimumMarks: minimumMarks,
-						price: price
+						price: price,
+						general,
+						sc,
+						st,
+						ews,
+						km,
+						pwd,
+						obc,
 					}
 				);
 
