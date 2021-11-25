@@ -3,13 +3,15 @@ const { Schema, model } = mongoose;
 
 const UserTestResultSchema = new Schema(
 	{
-		userID: {
+		userId: {
 			type: Schema.Types.ObjectId,
 			ref: "Admin",
+            required:true
 		},
 		testId: {
 			type: Schema.Types.ObjectId,
 			ref: "Test",
+            required:true
 		},
         userTotalMarks:
         {
@@ -41,58 +43,18 @@ const UserTestResultSchema = new Schema(
         },
         mainContentEnglish: [
 			{
-                sectionId:{
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "Section",
-                    required: true,
-			    },
-                correctQues: Number,
-                wrongQues: Number,
-                markedQues:Number,
-                remaining: Number,
-                questions:
-                [
-                    {
-                         questionId:{ 
-                            type: Schema.Types.ObjectId,
-                            required: true,
-                            ref: "Question",
-                            unique: true,
-                         },
-                         status:String,
-                         isAttempted:Boolean,
-                         userResponse:String
-                    }
-                ]
+                type: Schema.Types.ObjectId,
+                ref:"UserTestSectionResult",
+                unique: true, 
             }
 
 		],
 		mainContentHindi: [
-			{
-                sectionId:{
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "Section",
-                    required: true,
-			    },
-                correctQues: Number,
-                wrongQues: Number,
-                markedQues:Number,
-                remaining: Number,
-                questions:
-                [
-                    {
-                         questionId:{ 
-                            type: Schema.Types.ObjectId,
-                            required: true,
-                            ref: "Question",
-                            unique: true,
-                         },
-                         status:String,
-                         isAttempted:Boolean,
-                         userResponse:String
-                    }
-                ]
-			},
+            {
+                type: Schema.Types.ObjectId,
+                ref:"UserTestSectionResult",
+                unique: true, 
+            },
 		],
         
 		 

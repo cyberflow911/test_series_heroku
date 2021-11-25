@@ -31,6 +31,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		language,
 		price,
 		subjectID,
+
 	} = req.body;
 	const data = {
 		name,
@@ -141,7 +142,7 @@ router.get(
 		} catch (error) {
 			console.log(error);
 		}
-	}
+	} 
 );
 
 router.get("/getQuestions/:testID/:offset/:limit", async (req, res) => {
@@ -2593,11 +2594,12 @@ router.post("/editTest/:testID", async (req, res) => {
 			negativeMarking,
 			correctAnswerMarking,
 			totalMarks,
-			duration,
+			duration,				
 			selectedDate,
 			selectedTime,
 			testType,
 			minimumMarks,
+			price
 		} = req.body;
 		var data = {
 			name,
@@ -2647,6 +2649,7 @@ router.post("/editTest/:testID", async (req, res) => {
 						selectedTime: selectedTime,
 						testType: testType,
 						minimumMarks: minimumMarks,
+						price: price
 					}
 				);
 
