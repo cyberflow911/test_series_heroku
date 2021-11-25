@@ -37,6 +37,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		km,
 		pwd,
 		obc,
+		QuestionCount,
 		subjectID,
 
 	} = req.body;
@@ -100,6 +101,7 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 				km,
 				pwd,
 				obc,
+				QuestionCount,
 				subjectID: subjectID,
 			});
 
@@ -2621,6 +2623,7 @@ router.post("/editTest/:testID", async (req, res) => {
 			km,
 			pwd,
 			obc,
+			QuestionCount,
 		} = req.body;
 		var data = {
 			name,
@@ -2678,6 +2681,7 @@ router.post("/editTest/:testID", async (req, res) => {
 						km,
 						pwd,
 						obc,
+						QuestionCount
 					}
 				);
 
