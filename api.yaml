@@ -3410,6 +3410,139 @@ paths:
         500:
           description: Internal Server Error
   
+  /v1/response/startTest/{userID}/{testID}:
+    post:
+      tags:
+        - name: Response
+      summary: Start test and create User Test Response
+      description: This route will be called when start test will be clicked with empty body
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          type: string
+        - name: testID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: test
+          type: object
+          properties:
+            attemptedQues:
+              type: number
+            correctQues:
+              type: number
+            wrongQues:
+              type: number
+            rank:
+              type: number
+            accuracy:
+              type: number
+            percentile:
+              type: number
+            timeleft:
+              type: number
+            remaingQues:
+              type: number
+            userMarks:
+              type: number
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/response/startSection/{userID}/{sectionID}:
+    post:
+      tags:
+        - name: Response
+      summary: Start section and create User section Response
+      description: This route will be called when section will render for the first time with empty body
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          type: string
+        - name: sectionID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: section
+          type: object
+          properties:
+            correctQues:
+              type: number
+            wrongQues:
+              type: number
+            attemptedQues:
+              type: number
+            remainingQues:
+              type: number
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/response/startQuestion/{userID}/{sectionID}/{questionID}:
+    post:
+      tags:
+        - name: Response
+      summary: Start question and create User question Response / update
+      description: This route will be called when question will render for the first time with empty body
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          type: string
+        - name: sectionID
+          in: path
+          type: string
+          required: true
+        - name: questionID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: question
+          type: object
+          properties:
+            status:
+              type: string
+            isAttempted:
+              type: boolean
+              default: false
+            userResponse:
+              type: string
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
 
 
 

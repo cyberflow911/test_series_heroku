@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const UserSectionRes = require("./UserSectionRes");
 const { Schema, model } = mongoose;
 
 const sectionSchema = new Schema({
@@ -15,6 +16,15 @@ const sectionSchema = new Schema({
 		},
 	],
 });
+
+sectionSchema.methods.getUserRes = async function (userID) {
+	const section = this;
+	const sectionRes = await UserSectionRes.findOne({
+		userID,
+		sectionID: section._id,
+	});
+	return sectionRes;
+};
 
 const Section = model("Section", sectionSchema);
 

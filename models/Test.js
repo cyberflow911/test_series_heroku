@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const UserTestRes = require("./UserTestRes");
 
 const { Schema } = mongoose;
 
@@ -122,6 +123,17 @@ const Tests = new Schema(
 	{ timestamps: true }
 );
 
+Tests.methods.getUserRes = async function (userID) {
+	const test = this;
+	const testRes = await UserTestRes.findOne({
+		userID,
+		testID: test._id,
+	});
+	return testRes;
+};
+
+Tests.set("toObject", { virtuals: true });
+Tests.set("toJSON", { virtuals: true });
 const Test = mongoose.model("Test", Tests);
 
 exports.Test = Test;

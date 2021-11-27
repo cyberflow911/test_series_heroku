@@ -1,6 +1,6 @@
-	const express = require("express");
+const express = require("express");
 
-	const router = express.Router();
+const router = express.Router();
 
 const testValidator = require("../Validators/testValidator");
 const { Test } = require("../models/Test");
@@ -39,7 +39,6 @@ router.post("/createTest/:subCategoryID", async (req, res) => {
 		obc,
 		QuestionCount,
 		subjectID,
-
 	} = req.body;
 	const data = {
 		name,
@@ -158,7 +157,7 @@ router.get(
 		} catch (error) {
 			console.log(error);
 		}
-	} 
+	}
 );
 
 router.get("/getQuestions/:testID/:offset/:limit", async (req, res) => {
@@ -232,7 +231,13 @@ router.delete("/deleteQuestion/:questionID", async (req, res) => {
 
 router.get("/getQuestionByID/:questionID", async (req, res) => {
 	try {
-		const question = await Question.findOne({ _id: req.params.questionID });
+		const question = await Question.findOne({
+			_id: req.params.questionID,
+		})
+			.populate({
+				path: "userRes",
+			})
+			.exec();
 		if (!question) {
 			res.status(200).json({
 				status: false,
@@ -376,8 +381,6 @@ router.get("/getTest/:testID", async (req, res) => {
 		console.log(error);
 	}
 });
-
-
 
 // get Subject by subCategoryID
 
@@ -2610,7 +2613,7 @@ router.post("/editTest/:testID", async (req, res) => {
 			negativeMarking,
 			correctAnswerMarking,
 			totalMarks,
-			duration,				
+			duration,
 			selectedDate,
 			selectedTime,
 			testType,
@@ -2681,7 +2684,7 @@ router.post("/editTest/:testID", async (req, res) => {
 						km,
 						pwd,
 						obc,
-						QuestionCount
+						QuestionCount,
 					}
 				);
 
