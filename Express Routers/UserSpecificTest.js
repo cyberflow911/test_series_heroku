@@ -23,9 +23,15 @@ router.post("/startTest/:userID/:testID", async (req, res) => {
 				runValidators: true,
 				setDefaultsOnInsert: true,
 			}
-		).populate({
-			path: "testID",
-		});
+		)
+			.populate({
+				path: "testID",
+				populate: {
+					path: "mainContentEnglish mainContentHindi",
+					select: "-questions",
+				},
+			})
+			.exec();
 		res.status(201).json({
 			status: true,
 			message: "user Response to this test is done",
