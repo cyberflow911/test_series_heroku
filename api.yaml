@@ -3543,6 +3543,35 @@ paths:
           description: Invalid Credentials
         500:
           description: Internal Server Error
+  /v1/response/getRespondTest/{userID}:
+    get:
+      tags:
+        - name: Response
+      summary: get user response test based on status
+      description: This route will be called when need to fetch user response test only
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          type: string
+        - name: testID
+          in: query
+          type: string
+          enum: [inprogress, finished]
+          required: true
+      responses:
+        200:
+          description: OK
+        400:
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
 
 
 

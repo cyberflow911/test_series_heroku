@@ -149,6 +149,32 @@ router.get("/getTestByID/:userID/:testID", async (req, res) => {
 		});
 	}
 });
+router.get("/getRespondTest/:userID", async (req, res) => {
+	const query = {
+		userID: req.params.userID,
+	};
+	if (req.query.status) {
+		query.status = req.query.status;
+	}
+	try {
+		const resTest = await UserTestRes.find(query);
+		if (!resTest) {
+			return res.status(404).json({
+				status: false,
+				message: "User Test Not found",
+			});
+		}
+		res.status(200).json({
+			status: true,
+			test: resTest,
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: false,
+			message: "Server Error",
+		});
+	}
+});
 router.get("/getSectionByID/:userID/:sectionID", async (req, res) => {
 	try {
 		const section = await Section.findOne({ _id: req.params.sectionID });

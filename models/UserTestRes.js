@@ -42,13 +42,18 @@ const userTestResSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
-		remaingQues: {
+		remainingQues: {
 			type: Number,
 			default: 0,
 		},
 		userMarks: {
 			type: Number,
 			default: 0,
+		},
+		status: {
+			type: String,
+			default: "inprogress",
+			enum: ["inprogress", "finished"],
 		},
 	},
 	{
