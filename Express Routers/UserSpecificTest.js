@@ -157,7 +157,12 @@ router.get("/getRespondTest/:userID", async (req, res) => {
 		query.status = req.query.status;
 	}
 	try {
-		const resTest = await UserTestRes.find(query);
+		const resTest = await UserTestRes.find(query)
+			.populate({
+				path: "testID",
+				select: "name",
+			})
+			.exec();
 		if (!resTest) {
 			return res.status(404).json({
 				status: false,
