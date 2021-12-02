@@ -138,7 +138,7 @@ router.get("/getTestByID/:userID/:testID", async (req, res) => {
 		const testRes = await test.getUserRes(req.params.userID);
 		res.status(200).json({
 			status: true,
-			test: test,
+			test,
 			testRes,
 		});
 	} catch (error) {

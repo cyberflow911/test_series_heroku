@@ -142,6 +142,8 @@ router.get(
 				.limit(limit)
 				.skip(offset);
 
+			// const testRes = await test[0].getUserRes();
+
 			if (!test) {
 				res.status(200).json({
 					status: false,
@@ -151,7 +153,7 @@ router.get(
 				res.status(200).json({
 					status: false,
 					message: "Test Found!!",
-					test: test,
+					tests: test,
 				});
 			}
 		} catch (error) {

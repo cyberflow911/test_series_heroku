@@ -25,7 +25,8 @@ const Tests = new Schema(
 			default: "English",
 		},
 		subCategoryID: {
-			type: String,
+			type: Schema.Types.ObjectId,
+			ref: "subCategory",
 			required: true,
 		},
 		minimumMarks: {
