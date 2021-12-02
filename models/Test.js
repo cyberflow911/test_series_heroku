@@ -10,7 +10,6 @@ const Tests = new Schema(
 			type: String,
 			min: 3,
 		},
-
 		description: {
 			required: true,
 			type: String,

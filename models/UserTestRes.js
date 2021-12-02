@@ -14,6 +14,11 @@ const userTestResSchema = new Schema(
 			ref: "Test",
 			required: true,
 		},
+		language: {
+			type: String,
+			enum: ["Hindi", "English"],
+			required: true,
+		},
 		attemptedQues: {
 			type: Number,
 			default: 0,

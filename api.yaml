@@ -3431,6 +3431,8 @@ paths:
           name: test
           type: object
           properties:
+            language:
+              type: string
             attemptedQues:
               type: number
             correctQues:

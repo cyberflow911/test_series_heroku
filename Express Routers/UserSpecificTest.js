@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.post("/startTest/:userID/:testID", async (req, res) => {
 	const { userID, testID } = req.params;
-
 	try {
 		const testRes = await UserTestRes.findOneAndUpdate(
 			{
