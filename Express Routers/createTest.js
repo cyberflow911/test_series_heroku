@@ -142,7 +142,15 @@ router.get(
 				.limit(limit)
 				.skip(offset);
 
-			// const testRes = await test[0].getUserRes();
+			// const testData = await Promise.all(
+			// 	tests.map(async (test) => {
+			// 		const testRes = await test.getUserRes();
+			// 		return {
+			// 			test,
+			// 			testRes,
+			// 		};
+			// 	})
+			// );
 
 			if (!test) {
 				res.status(200).json({
@@ -153,7 +161,53 @@ router.get(
 				res.status(200).json({
 					status: false,
 					message: "Test Found!!",
-					tests: test,
+					test,
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+);
+
+router.get(
+	"/getTestBySubCategory/:userID/:subCategoryID/:offset/:limit",
+	async (req, res) => {
+		const limit = parseInt(req.params.limit);
+		const offset = (parseInt(req.params.offset) - 1) * limit;
+		try {
+			const tests = await Test.find(
+				{ subCategoryID: req.params.subCategoryID },
+				{},
+				{
+					sort: {
+						createdAt: -1,
+					},
+				}
+			)
+				.limit(limit)
+				.skip(offset);
+
+			const testData = await Promise.all(
+				tests.map(async (test) => {
+					const testRes = await test.getUserRes(req.params.userID);
+					return {
+						test,
+						testRes,
+					};
+				})
+			);
+
+			if (!tests) {
+				res.status(200).json({
+					status: false,
+					message: "Test Not Found",
+				});
+			} else {
+				res.status(200).json({
+					status: false,
+					message: "Test Found!!",
+					testData,
 				});
 			}
 		} catch (error) {

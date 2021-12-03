@@ -1020,6 +1020,33 @@ paths:
         200:
           description: OK
           
+  /v1/test/getTestBySubCategory/{userID}/{subCategoryID}/{offset}/{limit}:
+    get:
+      tags:
+        - name: Test
+      summary: Getting test by subCategoryID regarding user
+      description: lorem
+      parameters:
+        - name: subCategoryID
+          type: string
+          in: path
+          required: true
+        - name: userID
+          type: string
+          in: path
+          required: true
+        - name: offset
+          type: string
+          in: path
+          required: true
+        - name: limit
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          
 
   
   /v1/test/addOptions/{questionID}:
