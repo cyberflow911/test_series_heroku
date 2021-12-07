@@ -9,7 +9,8 @@ const {Transaction} = require('../models/Transactions');
 
 router.post('/redeemReferral/:userID', async(req, res)=>
 {
-    const {referralCode} = req.body;
+    const {referralCode, price} = req.body;
+    console.log(price);
     try {
         const checkReferral = await Referral.findOne({referralCode: referralCode});
         
@@ -74,6 +75,8 @@ router.post('/redeemReferral/:userID', async(req, res)=>
                     })
 
                 try {
+                    const nowPayment = price * (checkReferral.commisionPercent/100)
+                    console.log(nowPayment);
                     
                     const transaction = await Transaction.findOne({email: checkReferral.email}, {}, {sort:{
                         'createdAt': -1
@@ -88,7 +91,7 @@ router.post('/redeemReferral/:userID', async(req, res)=>
                                 userType: checkReferral.userType,
                                 previousWallet: 0,
                                 transactionType: 'Referral',
-                                now: checkReferral.commisionPercent,
+                                now: nowPayment,
                                 comission: checkReferral.commisionPercent,
                                 studentID: req.params.userID,
                                 studentName: userMain.userName,
@@ -174,13 +177,13 @@ router.post('/redeemReferral/:userID', async(req, res)=>
                         // )
                         const nextTransaction = await new Transaction(
                             {
-                                wallet: transaction.wallet + checkReferral.commisionPercent,
+                                wallet: transaction.wallet + nowPayment,
                                 userID: checkReferral.userID,
                                 email: checkReferral.email,
                                 transactionType: 'Referral',
                                 userType: checkReferral.userType,
                                 previousWallet: transaction.wallet,
-                                now: transaction.wallet + checkReferral.commisionPercent,
+                                now: transaction.wallet + nowPayment,
                                 studentID: req.params.userID,
                                 comission: checkReferral.commisionPercent,
                                 studentName: userMain.userName,

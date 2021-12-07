@@ -80,7 +80,7 @@ router.post('/payoutUser/:userID', async(req, res)=>
                 {
                     res.status(500).json(
                         {
-                            status: false.valueOf,
+                            status: false,
                             message: "Transaction Not Created"
                         }
                     )

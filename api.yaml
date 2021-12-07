@@ -1274,6 +1274,8 @@ paths:
             properties:
               referralCode:
                 type: string
+              price:
+                type: number
       responses:
         200:
           description: OK
