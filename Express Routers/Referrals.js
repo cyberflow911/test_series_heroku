@@ -9,8 +9,8 @@ const {Transaction} = require('../models/Transactions');
 
 router.post('/redeemReferral/:userID', async(req, res)=>
 {
-    const {referralCode, price} = req.body;
-    console.log(price);
+    const {referralCode} = req.body;
+    
     try {
         const checkReferral = await Referral.findOne({referralCode: referralCode});
         
@@ -28,8 +28,9 @@ router.post('/redeemReferral/:userID', async(req, res)=>
         else 
         {
             console.log(checkReferral);
+            //this is the user with the referral code
             const userReferral = await Admin.findOne({_id:checkReferral.userID});
-            
+            //this is the user who is using that referral
             const userMain = await Admin.findOne({_id: req.params.userID});
             
             const user = await Admin.findOne({$and:[{_id: req.params.userID}, {referralStatus: true}]}
@@ -65,168 +66,37 @@ router.post('/redeemReferral/:userID', async(req, res)=>
             }
             else 
             {
-                
-                
-                const userUpdate = await Admin.updateMany({_id: req.params.userID}, 
-                    {
-                        referralStatus: true,
-                        referralCode: referralCode
-
-                    })
-
                 try {
-                    const nowPayment = price * (checkReferral.commisionPercent/100)
-                    console.log(nowPayment);
-                    
-                    const transaction = await Transaction.findOne({email: checkReferral.email}, {}, {sort:{
-                        'createdAt': -1
-                    }});
-                    if(!transaction)
-                    {
-                        const firstTransaction = await new Transaction(
-                            {
-                                wallet: checkReferral.commisionPercent,
-                                userID: checkReferral.userID,
-                                email: checkReferral.email,
-                                userType: checkReferral.userType,
-                                previousWallet: 0,
-                                transactionType: 'Referral',
-                                now: nowPayment,
-                                comission: checkReferral.commisionPercent,
-                                studentID: req.params.userID,
-                                studentName: userMain.userName,
-                                log: "Credit",
-                                description: `${userMain.userName} has used your referral`
 
-
-
-
-                            }
-                            
-                        )
-
-                        if(!firstTransaction)
+                    const updateReferral = await Admin.updateMany({_id: req.params.userID}, 
                         {
-                            
-                            res.status(200).json(
-                                {
-                                    status: false,
-                                    message: "Referral Not Created!!"
-                                }
-                            )
-                        }
-                        else 
+                            referralUsed: referralCode
+                        })
+
+
+                    res.status(200).json(
                         {
-                            await firstTransaction.save();
-                            res.status(200).json(
-                                {
-                                    status: true,
-                                    message: "Referral Code is applied!!"
-                                }
-                            )
+                            status: true,
+                            message: "Referral Code is Used",
+                            user: req.params.userID,
+                            referralCode: referralCode
                         }
-                    
-                        // // const transactionData = 
-                        // // {
-                        // //     previous: 0,
-                        // //     now: userMain.commisionPercent,
-                        // //     studentID: userMain._id,
-                        // //     studentName: userMain.name,
-                        // //     createdAt: Date.now()
-    
-                        // // }
-                        // transactionData.previous = 0;
-                        // transactionData.now = userMain.commisionPercent;
-                        // transactionData.studentID = userMain._id;
-                        // transactionData.studentName = userMain.name;
-                        // transactionData.createdAt = Date.now();
-
-
-                    }
-                    else 
-                    {
-                        // const transactionData = 
-                        // {
-                        //     previous: transaction.wallet,
-                        //     now: transaction.wallet + checkReferral.commisionPercent,
-                        //     studentID: userMain._id,
-                        //     studentName: userMain.userName,
-                        //     createdAt: Date.now(),
-                        //     log: 'Credit',
-                        //     description: `${userMain.userName} has used your Referral Code`
-    
-                        // }
-                        // console.log(transactionData);
-                        // const transationUpdate = await Transaction.updateMany({email: checkReferral.email}, 
-                        //     {
-                        //         $inc:
-                        //         {
-                        //             wallet: checkReferral.commisionPercent
-                        //         },
-                        //        $push: {
-                        //            creditLog: transactionData
-                        //        }
-                               
-    
-                        //     })
-
-                        // const transaction = await new Transaction(
-                        //     {
-
-                        //     }
-                        // )
-                        const nextTransaction = await new Transaction(
-                            {
-                                wallet: transaction.wallet + nowPayment,
-                                userID: checkReferral.userID,
-                                email: checkReferral.email,
-                                transactionType: 'Referral',
-                                userType: checkReferral.userType,
-                                previousWallet: transaction.wallet,
-                                now: transaction.wallet + nowPayment,
-                                studentID: req.params.userID,
-                                comission: checkReferral.commisionPercent,
-                                studentName: userMain.userName,
-                                log: "Credit",
-                                description: `${userMain.userName} has used ${userReferral.userName} (${userReferral.referral}) referral`
-
-
-                            }
-                            
-                        )
-                        if(!nextTransaction)
-                        {
-                            
-                            res.status(200).json(
-                                {
-                                    status: false,
-                                    message: 'Referral Not Applied'
-                                }
-                            )
-                        }
-                        else 
-
-                        {
-                            await nextTransaction.save();
-                            res.status(200).json(
-                                {
-                                    status:true,
-                                    message: "Referral Code is Applied"
-                                }
-                            )
-
-                        }
-
-                            console.log(transaction);
-                        
-                    }
-                   
-                  
+                    )
                     
                 } catch (error) {
                     
-                    console.log(error);
+                    res.status(500).json(
+                        {
+                            status: false,
+                            message: "Error",
+                            error: error
+                        }
+                    )
                 }
+                
+                
+                
+                
             }
 
 
@@ -240,6 +110,239 @@ router.post('/redeemReferral/:userID', async(req, res)=>
         console.log(error);
     }
 })
+// router.post('/redeemReferral/:userID', async(req, res)=>
+// {
+//     const {referralCode, price} = req.body;
+//     console.log(price);
+//     try {
+//         const checkReferral = await Referral.findOne({referralCode: referralCode});
+        
+//         if(!checkReferral)
+//         {
+            
+//             res.status(200).json(
+//                 {
+//                     status: false,
+//                     message : "Referral Not Valid"
+//                 }
+//             )
+//         }
+
+//         else 
+//         {
+//             console.log(checkReferral);
+//             const userReferral = await Admin.findOne({_id:checkReferral.userID});
+            
+//             const userMain = await Admin.findOne({_id: req.params.userID});
+            
+//             const user = await Admin.findOne({$and:[{_id: req.params.userID}, {referralStatus: true}]}
+//                 );
+              
+//             if(user || !userReferral)
+//             {
+             
+//                 res.status(200).json(
+//                     {
+//                         status: false,
+//                         message : 'Referral Code Already Used'
+//                     }
+//                 )
+//             }
+//             else if(userReferral.isActive === false)
+//             {
+//                 res.status(200).json(
+//                     {
+//                         status: false,
+//                         message: "This Referral is Blocked!!!"
+//                     }
+//                 )
+//             }
+//             else if (checkReferral.userType === 2 && userMain.typeUser != 2)
+//             {
+//                 res.status(200).json(
+//                     {
+//                         status: false,
+//                         message: "Student Cannot refer Teacher"
+//                     }
+//                 )
+//             }
+//             else 
+//             {
+                
+                
+//                 const userUpdate = await Admin.updateMany({_id: req.params.userID}, 
+//                     {
+//                         referralStatus: true,
+//                         referralCode: referralCode
+
+//                     })
+
+//                 try {
+//                     const nowPayment = price * (checkReferral.commisionPercent/100)
+//                     console.log(nowPayment);
+                    
+//                     const transaction = await Transaction.findOne({email: checkReferral.email}, {}, {sort:{
+//                         'createdAt': -1
+//                     }});
+//                     if(!transaction)
+//                     {
+//                         const firstTransaction = await new Transaction(
+//                             {
+//                                 wallet: checkReferral.commisionPercent,
+//                                 userID: checkReferral.userID,
+//                                 email: checkReferral.email,
+//                                 userType: checkReferral.userType,
+//                                 previousWallet: 0,
+//                                 transactionType: 'Referral',
+//                                 now: nowPayment,
+//                                 comission: checkReferral.commisionPercent,
+//                                 studentID: req.params.userID,
+//                                 studentName: userMain.userName,
+//                                 log: "Credit",
+//                                 description: `${userMain.userName} has used your referral`
+
+
+
+
+//                             }
+                            
+//                         )
+
+//                         if(!firstTransaction)
+//                         {
+                            
+//                             res.status(200).json(
+//                                 {
+//                                     status: false,
+//                                     message: "Referral Not Created!!"
+//                                 }
+//                             )
+//                         }
+//                         else 
+//                         {
+//                             await firstTransaction.save();
+//                             res.status(200).json(
+//                                 {
+//                                     status: true,
+//                                     message: "Referral Code is applied!!"
+//                                 }
+//                             )
+//                         }
+                    
+//                         // // const transactionData = 
+//                         // // {
+//                         // //     previous: 0,
+//                         // //     now: userMain.commisionPercent,
+//                         // //     studentID: userMain._id,
+//                         // //     studentName: userMain.name,
+//                         // //     createdAt: Date.now()
+    
+//                         // // }
+//                         // transactionData.previous = 0;
+//                         // transactionData.now = userMain.commisionPercent;
+//                         // transactionData.studentID = userMain._id;
+//                         // transactionData.studentName = userMain.name;
+//                         // transactionData.createdAt = Date.now();
+
+
+//                     }
+//                     else 
+//                     {
+//                         // const transactionData = 
+//                         // {
+//                         //     previous: transaction.wallet,
+//                         //     now: transaction.wallet + checkReferral.commisionPercent,
+//                         //     studentID: userMain._id,
+//                         //     studentName: userMain.userName,
+//                         //     createdAt: Date.now(),
+//                         //     log: 'Credit',
+//                         //     description: `${userMain.userName} has used your Referral Code`
+    
+//                         // }
+//                         // console.log(transactionData);
+//                         // const transationUpdate = await Transaction.updateMany({email: checkReferral.email}, 
+//                         //     {
+//                         //         $inc:
+//                         //         {
+//                         //             wallet: checkReferral.commisionPercent
+//                         //         },
+//                         //        $push: {
+//                         //            creditLog: transactionData
+//                         //        }
+                               
+    
+//                         //     })
+
+//                         // const transaction = await new Transaction(
+//                         //     {
+
+//                         //     }
+//                         // )
+//                         const nextTransaction = await new Transaction(
+//                             {
+//                                 wallet: transaction.wallet + nowPayment,
+//                                 userID: checkReferral.userID,
+//                                 email: checkReferral.email,
+//                                 transactionType: 'Referral',
+//                                 userType: checkReferral.userType,
+//                                 previousWallet: transaction.wallet,
+//                                 now: transaction.wallet + nowPayment,
+//                                 studentID: req.params.userID,
+//                                 comission: checkReferral.commisionPercent,
+//                                 studentName: userMain.userName,
+//                                 log: "Credit",
+//                                 description: `${userMain.userName} has used ${userReferral.userName} (${userReferral.referral}) referral`
+
+
+//                             }
+                            
+//                         )
+//                         if(!nextTransaction)
+//                         {
+                            
+//                             res.status(200).json(
+//                                 {
+//                                     status: false,
+//                                     message: 'Referral Not Applied'
+//                                 }
+//                             )
+//                         }
+//                         else 
+
+//                         {
+//                             await nextTransaction.save();
+//                             res.status(200).json(
+//                                 {
+//                                     status:true,
+//                                     message: "Referral Code is Applied"
+//                                 }
+//                             )
+
+//                         }
+
+//                             console.log(transaction);
+                        
+//                     }
+                   
+                  
+                    
+//                 } catch (error) {
+                    
+//                     console.log(error);
+//                 }
+//             }
+
+
+//         }
+
+    
+        
+
+//     } catch (error) {
+        
+//         console.log(error);
+//     }
+// })
 
 
 //getting all the referred Students of particular Teacher ID
@@ -553,6 +656,7 @@ router.get('/getTransactionByID/:transactionID', async(req, res)=>
     }
 }
 )
+
 
 
 router.get('/referredStudent/:teacherID', async(req, res)=>

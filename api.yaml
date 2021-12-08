@@ -1273,9 +1273,7 @@ paths:
             type: object
             properties:
               referralCode:
-                type: string
-              price:
-                type: number
+                type: string             
       responses:
         200:
           description: OK

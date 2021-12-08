@@ -110,8 +110,8 @@ const Admins = new Schema(
         referralUsed:
         
         {
-               type: Boolean,
-               default: false
+               type: String,
+               default: ''
         }
         ,
         
