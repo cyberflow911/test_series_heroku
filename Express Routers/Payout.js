@@ -4,8 +4,9 @@ const router = express.Router();
 
 const {Payout} = require('../models/Payout');
 const {Admin} = require('../models/Auth');
-const { ConnectionPoolClosedEvent } = require('mongoose/node_modules/mongodb');
-const e = require('express');
+
+const {Transaction} = require('../models/Transactions');
+
 
 
 // posting the purchase Update
@@ -153,12 +154,12 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
 
 
 
-                    res.status(200).json(
-                        {
-                            status: true,
-                            message: "Transaction is Updated"
-                        }
-                    )
+                    // res.status(200).json(
+                    //     {
+                    //         status: true,
+                    //         message: "Transaction is Updated"
+                    //     }
+                    // )
 
             }
             else 
@@ -184,17 +185,143 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
 
 
 
-                    res.status(200).json(
-                        {
-                            status: true,
-                            message: "Transaction is Updated"
-                        }
-                    )
+                    // res.status(200).json(
+                    //     {
+                    //         status: true,
+                    //         message: "Transaction is Updated"
+                    //     }
+                    // )
 
 
 
 
             }
+
+
+            try {
+                //getting the user aand the referral user
+                    const userMain= await Admin.findOne({_id: updateStatus.userID});
+                    const checkReferral = await Admin.findOne({referral: userMain.referralUsed});
+                    console.log("The user is :",userMain);
+
+                    const updateReferral = await Admin.updateMany({_id: updateStatus.userID}, 
+                        {
+                            referralStatus: true
+                        })
+                        const price = updateStatus.amount;
+                                    const nowPayment = price * (checkReferral.commisionPercent/100)
+                                    console.log(nowPayment);
+                                    
+                                    const transaction = await Transaction.findOne({email: checkReferral.email}, {}, {sort:{
+                                        'createdAt': -1
+                                    }});
+                                    if(!transaction)
+                                    {
+                                        const firstTransaction = await new Transaction(
+                                            {
+                                                wallet: checkReferral.commisionPercent,
+                                                userID: checkReferral._id,
+                                                email: checkReferral.email,
+                                                userType: checkReferral.userType,
+                                                previousWallet: 0,
+                                                transactionType: 'Referral',
+                                                now: nowPayment,
+                                                comission: checkReferral.commisionPercent,
+                                                studentID: userMain._id,
+                                                studentName: userMain.userName,
+                                                log: "Credit",
+                                                description: `${userMain.userName} has used your referral`
+                
+                
+                
+                
+                                            }
+                                            
+                                        )
+                
+                                        if(!firstTransaction)
+                                        {
+                                            
+                                            res.status(200).json(
+                                                {
+                                                    status: false,
+                                                    message: "Transaction Not Created!!"
+                                                }
+                                            )
+                                        }
+                                        else 
+                                        {
+                                            await firstTransaction.save();
+                                            res.status(200).json(
+                                                {
+                                                    status: true,
+                                                    message: "Transaction is applied!!"
+                                                }
+                                            )
+                                        }
+                                    
+                                        
+                
+                                    }
+                                    else 
+                                    {
+                                        
+                                        const nextTransaction = await new Transaction(
+                                            {
+                                                wallet: transaction.wallet + nowPayment,
+                                                userID: checkReferral.userID,
+                                                email: checkReferral.email,
+                                                transactionType: 'Referral',
+                                                userType: checkReferral.userType,
+                                                previousWallet: transaction.wallet,
+                                                now: transaction.wallet + nowPayment,
+                                                studentID: req.params.userID,
+                                                comission: checkReferral.commisionPercent,
+                                                studentName: userMain.userName,
+                                                log: "Credit",
+                                                description: `${userMain.userName} has used ${checkReferral.userName} (${checkReferral.referral}) referral`
+                
+                
+                                            }
+                                            
+                                        )
+                                        if(!nextTransaction)
+                                        {
+                                            
+                                            res.status(200).json(
+                                                {
+                                                    status: false,
+                                                    message: 'Transaction Not Applied'
+                                                }
+                                            )
+                                        }
+                                        else 
+                
+                                        {
+                                            await nextTransaction.save();
+
+
+                                            
+                                            res.status(200).json(
+                                                {
+                                                    status: true,
+                                                    message: "Transaction is Updated"
+                                                }
+                                            )
+                
+                                        }
+                
+                                            console.log(transaction);
+                                        
+                                    }
+                                   
+                                  
+                                    
+                                } catch (error) {
+                                    
+                                    console.log(error);
+                                }
+                            
 
         }
         
