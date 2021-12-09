@@ -1277,6 +1277,30 @@ paths:
       responses:
         200:
           description: OK
+  /v1/payout/updateWallet/{userID}:
+    put:
+      tags:
+        - name: Payout
+      name: Update Wallet
+      description: lorem
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: updation
+          schema:
+            type: object
+            properties:
+              amount:
+                type: number
+              description:
+                type: string
+      responses:
+        200:
+          description: OK
+            
   /v1/profile/getProfileDetails/{userID}:
     get:
       tags:

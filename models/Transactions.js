@@ -12,7 +12,7 @@ const Transactions = new Schema(
        transactionType: 
        {
            type: String,
-           enum: ['Referral', 'Normal', 'Redeem'],
+           enum: ['Referral', 'Normal', 'Redeem', 'Debit'],
            default: 'Referral',
            required: true
 

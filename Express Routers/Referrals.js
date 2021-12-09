@@ -762,7 +762,7 @@ router.get('/getTransactionTeacher/:teacherID', async (req, res)=>
             res.status(200).json(
                 {
                     status: false,
-                    message: "Either ID is wrong or The user is not Teacher"
+                    message: "Transaction Not Found"
                 }
             )
         }

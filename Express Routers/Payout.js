@@ -334,6 +334,109 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
 
 
 
+//update the transaction
+
+router.put('/updateWallet/:userID', async(req,res)=>
+
+{
+    try {
+        //getitng the amount and the description from the request body
+        const {amount, description} = req.body;
+        console.log(amount, description);
+
+        //finding the latest payment off the user
+        const findLatest = await Transaction.findOne({}, {}, {sort:
+        {
+            'createdAt': -1
+        }})
+
+        if(!findLatest)
+        {
+            res.status(404).json(
+                {
+                    status: false,
+                    message: "No Wallet Found"
+                }
+            )
+        }
+        else 
+
+        {
+            try {
+
+                const createTransaction = await new Transaction(
+                    {
+        
+                        wallet: findLatest.wallet - amount,
+                        userID: req.params.userID,
+                        email: findLatest.email,
+                        transactionType: 'Debit',
+                        userType: findLatest.userType,
+                        previousWallet: findLatest.wallet,
+                        now: findLatest.wallet - amount,                
+                        comission: findLatest.comission,
+                        
+                        log: "Debit",
+                        description: description
+        
+                    }
+                )
+
+                if(!createTransaction)
+                {
+                    res.status(500).json(
+                        {
+                            status: false,
+                            message: "Transaction Not Created"
+                        }
+                    )
+                }
+                else 
+                {
+                    await createTransaction.save();
+                    res.status(200).json(
+                        {
+                            status: true,
+                            message: "Transaction is Updated"
+                        }
+                    )
+                }
+                
+            } catch (error) {
+                
+                res.status(500).json(
+                    {
+                        status: false,
+                        message: "Error",
+                        error: error
+                    }
+                )
+            }
+    
+
+        }
+
+
+        //creating the new Transactio for reducing the amount from the wallet
+
+        
+
+        
+        
+    } catch (error) {
+        
+        res.status(500).json(
+            {
+                status: false,
+                message: "Error",
+                error: error
+            }
+        )
+    }
+})
+
+
+
 //getting all the transaction
 
 router.get('/getAllTransaction/:offset/:limit', async(req, res)=>
