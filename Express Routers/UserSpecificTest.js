@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post("/startTest/:userID/:testID", async (req, res) => {
   const { userID, testID } = req.params;
+  let rank;
   try {
     const testRes = await UserTestRes.findOneAndUpdate(
       {
@@ -31,10 +32,21 @@ router.post("/startTest/:userID/:testID", async (req, res) => {
         },
       })
       .exec();
+
+    // Calculate Ranking
+    if (testRes.status === "finished") {
+      rank =
+        (await UserTestRes.find({
+          testID,
+          userMarks: { $gt: testRes.userMarks },
+        }).count()) + 1;
+    }
+
     res.status(201).json({
       status: true,
       message: "user Response to this test is done",
       testResponse: testRes,
+      rank,
     });
   } catch (error) {
     res.status(500).json({
