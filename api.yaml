@@ -1019,6 +1019,35 @@ paths:
       responses:
         200:
           description: OK
+  /v1/auth/socialLogin:
+    post:
+      tags:
+        - name: Auth
+      name: Social Login
+      description: Social Login For the user
+      consumes:
+        application/json
+      produces:
+        multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          type: string
+          required: true
+        - name: loginType
+          in: formData
+          type: string
+          enum: ['Normal', 'Social']
+          required: true
+        - in: formData
+          name: loginName
+          type: string
+          enum: ['Gmail', 'Facebook', 'Instagram']
+          required: true
+      responses:
+        200:
+          description: OK
+        
           
   /v1/test/getTestBySubCategory/{userID}/{subCategoryID}/{offset}/{limit}:
     get:
@@ -1273,12 +1302,34 @@ paths:
             type: object
             properties:
               referralCode:
-                type: string
-              price:
-                type: number
+                type: string             
       responses:
         200:
           description: OK
+  /v1/payout/updateWallet/{userID}:
+    put:
+      tags:
+        - name: Payout
+      name: Update Wallet
+      description: lorem
+      parameters:
+        - name: userID
+          in: path
+          type: string
+          required: true
+        - in: body
+          name: updation
+          schema:
+            type: object
+            properties:
+              amount:
+                type: number
+              description:
+                type: string
+      responses:
+        200:
+          description: OK
+            
   /v1/profile/getProfileDetails/{userID}:
     get:
       tags:

@@ -4,8 +4,9 @@ const router = express.Router();
 
 const {Payout} = require('../models/Payout');
 const {Admin} = require('../models/Auth');
-const { ConnectionPoolClosedEvent } = require('mongoose/node_modules/mongodb');
-const e = require('express');
+
+const {Transaction} = require('../models/Transactions');
+
 
 
 // posting the purchase Update
@@ -153,12 +154,12 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
 
 
 
-                    res.status(200).json(
-                        {
-                            status: true,
-                            message: "Transaction is Updated"
-                        }
-                    )
+                    // res.status(200).json(
+                    //     {
+                    //         status: true,
+                    //         message: "Transaction is Updated"
+                    //     }
+                    // )
 
             }
             else 
@@ -184,17 +185,161 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
 
 
 
-                    res.status(200).json(
-                        {
-                            status: true,
-                            message: "Transaction is Updated"
-                        }
-                    )
+                    // res.status(200).json(
+                    //     {
+                    //         status: true,
+                    //         message: "Transaction is Updated"
+                    //     }
+                    // )
 
 
 
 
             }
+
+
+            try {
+                //getting the user aand the referral user
+                    const userMain= await Admin.findOne({_id: updateStatus.userID});
+                    const checkReferral = await Admin.findOne({referral: userMain.referralUsed});
+                    
+                    console.log(checkReferral);
+
+                    if(userMain.referralUsed === '' || checkReferral === null)
+                    {
+                        res.status(200).json(
+                            {
+                                status: false,
+                                message: "Transaction Updated"
+                            }
+                        )
+
+                    }
+                    else 
+                    {
+                        const updateReferral = await Admin.updateMany({_id: updateStatus.userID}, 
+                            {
+                                referralStatus: true
+                            })
+                            const price = updateStatus.amount;
+                                        const nowPayment = price * (checkReferral.commisionPercent/100)
+                                        console.log(nowPayment);
+                                        
+                                        const transaction = await Transaction.findOne({email: checkReferral.email}, {}, {sort:{
+                                            'createdAt': -1
+                                        }});
+                                        if(!transaction)
+                                        {
+                                            const firstTransaction = await new Transaction(
+                                                {
+                                                    wallet: nowPayment,
+                                                    userID: checkReferral._id,
+                                                    email: checkReferral.email,
+                                                    userType: checkReferral.userType,
+                                                    previousWallet: 0,
+                                                    transactionType: 'Referral',
+                                                    now: nowPayment,
+                                                    comission: checkReferral.commisionPercent,
+                                                    studentID: userMain._id,
+                                                    studentName: userMain.userName,
+                                                    log: "Credit",
+                                                    description: `${userMain.userName} has used your referral`
+                    
+                    
+                    
+                    
+                                                }
+                                                
+                                            )
+                    
+                                            if(!firstTransaction)
+                                            {
+                                                
+                                                res.status(200).json(
+                                                    {
+                                                        status: false,
+                                                        message: "Transaction Not Created!!"
+                                                    }
+                                                )
+                                            }
+                                            else 
+                                            {
+                                                await firstTransaction.save();
+                                                res.status(200).json(
+                                                    {
+                                                        status: true,
+                                                        message: "Transaction is applied!!"
+                                                    }
+                                                )
+                                            }
+                                        
+                                            
+                    
+                                        }
+                                        else 
+                                        {
+                                            
+                                            const nextTransaction = await new Transaction(
+                                                {
+                                                    wallet: transaction.wallet + nowPayment,
+                                                    userID: checkReferral.userID,
+                                                    email: checkReferral.email,
+                                                    transactionType: 'Referral',
+                                                    userType: checkReferral.userType,
+                                                    previousWallet: transaction.wallet,
+                                                    now: transaction.wallet + nowPayment,
+                                                    studentID: req.params.userID,
+                                                    comission: checkReferral.commisionPercent,
+                                                    studentName: userMain.userName,
+                                                    log: "Credit",
+                                                    description: `${userMain.userName} has used ${checkReferral.userName} (${checkReferral.referral}) referral`
+                    
+                    
+                                                }
+                                                
+                                            )
+                                            if(!nextTransaction)
+                                            {
+                                                
+                                                res.status(200).json(
+                                                    {
+                                                        status: false,
+                                                        message: 'Transaction Not Applied'
+                                                    }
+                                                )
+                                            }
+                                            else 
+                    
+                                            {
+                                                await nextTransaction.save();
+    
+    
+                                                
+                                                res.status(200).json(
+                                                    {
+                                                        status: true,
+                                                        message: "Transaction is Updated"
+                                                    }
+                                                )
+                    
+                                            }
+                    
+                                                console.log(transaction);
+                                            
+                                        }
+                        
+
+                    }
+                    
+
+                                   
+                                  
+                                    
+                                } catch (error) {
+                                    
+                                    console.log(error);
+                                }
+                            
 
         }
         
@@ -204,6 +349,109 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
     }
 })
 
+
+
+
+//update the transaction
+
+router.put('/updateWallet/:userID', async(req,res)=>
+
+{
+    try {
+        //getitng the amount and the description from the request body
+        const {amount, description} = req.body;
+        console.log(amount, description);
+
+        //finding the latest payment off the user
+        const findLatest = await Transaction.findOne({}, {}, {sort:
+        {
+            'createdAt': -1
+        }})
+
+        if(!findLatest)
+        {
+            res.status(404).json(
+                {
+                    status: false,
+                    message: "No Wallet Found"
+                }
+            )
+        }
+        else 
+
+        {
+            try {
+
+                const createTransaction = await new Transaction(
+                    {
+        
+                        wallet: findLatest.wallet - amount,
+                        userID: req.params.userID,
+                        email: findLatest.email,
+                        transactionType: 'Debit',
+                        userType: findLatest.userType,
+                        previousWallet: findLatest.wallet,
+                        now: findLatest.wallet - amount,                
+                        comission: findLatest.comission,
+                        
+                        log: "Debit",
+                        description: description
+        
+                    }
+                )
+
+                if(!createTransaction)
+                {
+                    res.status(500).json(
+                        {
+                            status: false,
+                            message: "Transaction Not Created"
+                        }
+                    )
+                }
+                else 
+                {
+                    await createTransaction.save();
+                    res.status(200).json(
+                        {
+                            status: true,
+                            message: "Transaction is Updated"
+                        }
+                    )
+                }
+                
+            } catch (error) {
+                
+                res.status(500).json(
+                    {
+                        status: false,
+                        message: "Error",
+                        error: error
+                    }
+                )
+            }
+    
+
+        }
+
+
+        //creating the new Transactio for reducing the amount from the wallet
+
+        
+
+        
+        
+    } catch (error) {
+        
+        res.status(500).json(
+            {
+                status: false,
+                message: "Error",
+                error: error
+            }
+        )
+    }
+})
 
 
 
