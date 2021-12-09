@@ -731,6 +731,7 @@ router.post('/socialLogin', async(req, res)=>
                         {
                             status: true,
                             message: "Signup Successful!!",
+							_id: newUser._id,
                             accessToken: generateJWT(newUser)
                         }
                     )
