@@ -205,7 +205,7 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
                     
                     console.log(checkReferral);
 
-                    if(userMain.referralUsed === '')
+                    if(userMain.referralUsed === '' || checkReferral === null)
                     {
                         res.status(200).json(
                             {
