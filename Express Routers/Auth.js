@@ -650,4 +650,103 @@ router.get("/getAllTeachersById/:teacherID", async (req, res) => {
 	}
 });
 
+
+//social login for test series app
+
+router.post('/socialLogin', async(req, res)=>
+{
+    //request fields 
+    const {email,loginType} = req.body;
+    const data = {email};
+
+    //validation of hte request body
+
+    const resultFromJoi = await adminValidator('email', data);
+
+    if(!resultFromJoi)
+    {
+        //return error if validation fails
+        res.status(401).json(
+            {
+                status: false,
+                message: "Invalid Credential Details"
+            }
+        )
+    }
+    else 
+    {
+
+        try {
+            //will create the new user for the user. We need no passwords because evrrything will be get validated as it is social login
+
+            const user = await socialLogin.findOne({email: email});
+            if(user)
+            {
+
+                //if user already present then will return login successful
+                
+                res.status(200).json(
+                    {
+                        status: true,
+                        message: "Login Successfull!",
+                        accessToken: generateJWT(user)
+                    }
+                )
+            }
+            else 
+            {
+                // generate the new user and add it to the db
+                const newUser = await new socialLogin(
+                    {
+                        
+                        email: email,
+                        
+                        
+                        loginType: loginType,
+                        
+                        
+    
+                    }
+                )
+    
+    
+                if(!newUser)
+                {
+                    //if there is some error in the code then it throws an error
+                    res.status(500).json(
+                        {
+                            status: false,
+                            message: "Social Login Not created!!",
+                            
+                        }
+                    )
+                }
+                else 
+                {
+                    //user gets saved in the database and the true response is returned
+                    await newUser.save()
+                    res.status(200).json(
+                        {
+                            status: true,
+                            message: "Signup Successful!!",
+                            accessToken: generateJWT(newUser)
+                        }
+                    )
+                }
+            }
+            
+        } catch (error) {
+            
+            console.log(error);
+        }
+    
+
+    }
+
+   
+
+
+})
+
+
 module.exports = router;
