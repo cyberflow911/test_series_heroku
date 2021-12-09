@@ -5,9 +5,9 @@ const {Schema} = mongoose;
 const Admins = new Schema(
     {
         userName: {
-            required: true,
+            
             type: String,
-            min:3
+            default: ''
         },
         
         email: 
@@ -16,6 +16,13 @@ const Admins = new Schema(
             type: String,
             unique:true,
             min: 8
+        },
+        loginType:
+        {
+            type: String,
+            enum: ['Normal', 'Social'],
+            required: true
+
         },
         typeUser:
         {
@@ -81,7 +88,7 @@ const Admins = new Schema(
         password: 
         {
             type: String,
-            required : true,
+            default: '',
             min: 8
         },
         referralStatus:
@@ -98,7 +105,7 @@ const Admins = new Schema(
         
         salt : {
             type: String,
-            required: true,
+            default: '',
             
 
         },
@@ -114,6 +121,12 @@ const Admins = new Schema(
                default: ''
         }
         ,
+        loginName:
+        {
+            type: String,
+            enum: ['Gmail', 'Instagram', 'Facebook', 'Normal'],
+            default: 'Normal'
+        },
         
         otp:
         {

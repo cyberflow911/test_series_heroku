@@ -186,6 +186,7 @@ router.post("/signupTest", async (req, res) => {
 						userName: userName,
 						email: email,
 						password: generateHash,
+						loginType: 'Normal',
 						salt: generateSalt,
 						referral: referralGen,
 						typeUser: 2,
@@ -656,7 +657,7 @@ router.get("/getAllTeachersById/:teacherID", async (req, res) => {
 router.post('/socialLogin', async(req, res)=>
 {
     //request fields 
-    const {email,loginType} = req.body;
+    const {email,loginType, loginName} = req.body;
     const data = {email};
 
     //validation of hte request body
@@ -679,7 +680,7 @@ router.post('/socialLogin', async(req, res)=>
         try {
             //will create the new user for the user. We need no passwords because evrrything will be get validated as it is social login
 
-            const user = await socialLogin.findOne({email: email});
+            const user = await Admin.findOne({email: email});
             if(user)
             {
 
@@ -696,10 +697,11 @@ router.post('/socialLogin', async(req, res)=>
             else 
             {
                 // generate the new user and add it to the db
-                const newUser = await new socialLogin(
+                const newUser = await new Admin(
                     {
                         
                         email: email,
+						loginName: loginName,
                         
                         
                         loginType: loginType,

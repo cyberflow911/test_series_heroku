@@ -1019,6 +1019,35 @@ paths:
       responses:
         200:
           description: OK
+  /v1/auth/socialLogin:
+    post:
+      tags:
+        - name: Auth
+      name: Social Login
+      description: Social Login For the user
+      consumes:
+        application/json
+      produces:
+        multipart/form-data
+      parameters:
+        - name: email
+          in: formData
+          type: string
+          required: true
+        - name: loginType
+          in: formData
+          type: string
+          enum: ['Normal', 'Social']
+          required: true
+        - in: formData
+          name: loginName
+          type: string
+          enum: ['Gmail', 'Facebook', 'Instagram']
+          required: true
+      responses:
+        200:
+          description: OK
+        
           
   /v1/test/getTestBySubCategory/{userID}/{subCategoryID}/{offset}/{limit}:
     get:
