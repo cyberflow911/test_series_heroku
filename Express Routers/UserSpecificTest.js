@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/startTest/:userID/:testID", async (req, res) => {
   const { userID, testID } = req.params;
-  let rank;
+  let rank, percentile;
   try {
     const testRes = await UserTestRes.findOneAndUpdate(
       {
@@ -40,6 +40,12 @@ router.post("/startTest/:userID/:testID", async (req, res) => {
           testID,
           userMarks: { $gt: testRes.userMarks },
         }).count()) + 1;
+      let totalSt = await UserTestRes.find({ testID }).count();
+      percentile =
+        (await UserTestRes.find({
+          testID,
+          userMarks: { $lt: testRes.userMarks },
+        }).count()) / totalSt;
     }
 
     res.status(201).json({
@@ -47,6 +53,7 @@ router.post("/startTest/:userID/:testID", async (req, res) => {
       message: "user Response to this test is done",
       testResponse: testRes,
       rank,
+      percentile,
     });
   } catch (error) {
     res.status(500).json({
