@@ -6,11 +6,11 @@ const UserQuesRes = require("../models/UserQuesRes");
 const UserSectionRes = require("../models/UserSectionRes");
 const UserTestRes = require("../models/UserTestRes");
 const router = express.Router();
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 router.post("/startTest/:userID/:testID", async (req, res) => {
   const { userID, testID } = req.params;
-  let rank, percentile, calcMark;
+  let rank, percentile, max, avg;
   try {
     const testRes = await UserTestRes.findOneAndUpdate(
       {
@@ -47,7 +47,8 @@ router.post("/startTest/:userID/:testID", async (req, res) => {
           testID,
           userMarks: { $lt: testRes.userMarks },
         }).count()) / totalSt;
-      calcMark = await UserTestRes.aggregate([
+
+      const calcMark = await UserTestRes.aggregate([
         {
           $match: {
             testID: new mongoose.Types.ObjectId(testID),
@@ -61,23 +62,23 @@ router.post("/startTest/:userID/:testID", async (req, res) => {
           },
         },
       ]);
+      max = calcMark[0].max;
+      avg = calcMark[0].avg;
     }
 
-    // calcMark = await UserTestRes.aggregate([{$match: {testID: new mongoose.Types.ObjectId(testID)}}])
-    // console.log(calcMark);
     res.status(201).json({
       status: true,
       message: "user Response to this test is done",
       testResponse: testRes,
       rank,
       percentile,
-      max: calcMark[0].max,
-      avg: calcMark[0].avg,
+      max,
+      avg,
     });
   } catch (error) {
     res.status(500).json({
       status: false,
-      message: "user Response create failed",
+      message: error.message,
     });
   }
 });
