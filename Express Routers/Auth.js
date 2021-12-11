@@ -683,14 +683,16 @@ router.post('/socialLogin', async(req, res)=>
             const user = await Admin.findOne({email: email});
             if(user)
             {
+				const newJWT = generateJWT(user);
 
                 //if user already present then will return login successful
                 
                 res.status(200).json(
                     {
-                        status: true,
-                        message: "Login Successfull!",
-                        accessToken: generateJWT(user)
+						status: true,
+						message: "Login Successful",
+						accessToken: newJWT,
+						user: user,
                     }
                 )
             }
@@ -725,16 +727,59 @@ router.post('/socialLogin', async(req, res)=>
                 }
                 else 
                 {
+					const referralGen = referralCode();
                     //user gets saved in the database and the true response is returned
-                    await newUser.save()
-                    res.status(200).json(
-                        {
-                            status: true,
-                            message: "Signup Successful!!",
-							_id: newUser._id,
-                            accessToken: generateJWT(newUser)
-                        }
-                    )
+                    // await newUser.save()
+					const referralData = await new Referral({
+						userID: newUser._id,
+						referralCode: referralGen,
+						email: email,
+						userType: 2,
+						commisionPercent: 50,
+					});
+
+					if(!referralData)
+					{
+						res.status(500).json(
+							{
+								status: false,
+								message: "Referral Not Created"
+							}
+						)
+					}
+					else 
+
+					{
+						const wallet = await new Wallet({
+							userID: newUser._id,
+							userType: 2,
+						});
+						if(!wallet) {
+							res.status(200).json({
+								status: false,
+								message: "Wallet is not generated",
+							});
+						}
+						else 
+						{
+							await newUser.save();
+							await referralData.save();
+							await wallet.save();
+							res.status(200).json({
+								status: true,
+								message: "User Is Created!",
+								userName: newUser.userName,
+								user: newUser,
+								email: newUser.email,
+								referral: newUser.referral,
+								accessToken: generateJWT(newUser),
+							});
+
+						}
+
+
+					}
+                    
                 }
             }
             
