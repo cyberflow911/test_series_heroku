@@ -209,7 +209,7 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
                     {
                         res.status(200).json(
                             {
-                                status: false,
+                                status: true,
                                 message: "Transaction Updated"
                             }
                         )

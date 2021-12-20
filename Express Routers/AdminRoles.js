@@ -314,7 +314,7 @@ router.get('/getAllStudents/:studentID', async (req, res)=>
                     {
                         status: true,
                         message: "Student Found",
-                        student: student
+                        user: student
                     }
                 )
             }
