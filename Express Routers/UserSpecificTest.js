@@ -8,6 +8,59 @@ const UserTestRes = require("../models/UserTestRes");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+// get all purchased test
+router.get("/purchasedTests/:userID", async (req, res) => {
+  const { userID } = req.params;
+  let { limit, offset, status } = req.query;
+
+  const query = {};
+  query.userID = userID;
+
+  // if (subCategoryID) {
+  //   query.testID = { subCategoryID };
+  // }
+
+  if (status) {
+    query.status = status;
+  }
+
+  if (!limit) {
+    limit = 10;
+  } else {
+    limit = parseInt(limit);
+  }
+
+  if (!offset) {
+    offset = 1;
+  } else {
+    offset = parseInt(offset);
+  }
+
+  const skip = (offset - 1) * limit;
+
+  try {
+    const purchasedTests = await UserTestRes.find(query)
+      .limit(limit)
+      .skip(skip)
+      .populate("testID");
+    if (!purchasedTests.length) {
+      res.status(404).json({
+        stats: false,
+        message: "No purchased test is found",
+      });
+    }
+    res.status(200).json({
+      status: true,
+      purchasedTests,
+    });
+  } catch (error) {
+    res.status(500).json({
+      stats: false,
+      message: error.message,
+    });
+  }
+});
+
 router.post("/startTest/:userID/:testID", async (req, res) => {
   const { userID, testID } = req.params;
   let rank, percentile, max, avg;
@@ -187,18 +240,45 @@ router.get("/getTestByID/:userID/:testID", async (req, res) => {
     });
   }
 });
-router.get("/getRespondTest/:userID", async (req, res) => {
-  const query = {
-    userID: req.params.userID,
-  };
-  if (req.query.status) {
-    query.status = req.query.status;
+router.get("/purchasedTests/:userID", async (req, res) => {
+  // get data from params and query
+  const { userID } = req.params;
+  let { limit, offset, status } = req.query;
+
+  // query init for find query
+  const query = {};
+
+  // set userID to query
+  query.userID = userID;
+
+  // check if status then set it to query
+  if (status) {
+    query.status = status;
   }
+
+  // set limit
+  if (!limit) {
+    limit = 10;
+  } else {
+    limit = parseInt(limit);
+  }
+
+  // set offset
+  if (!offset) {
+    offset = 1;
+  } else {
+    offset = parseInt(offset);
+  }
+
+  // calculate skip with offset and limit
+  const skip = (offset - 1) * limit;
+
   try {
     const resTest = await UserTestRes.find(query)
+      .limit(limit)
+      .skip(skip)
       .populate({
         path: "testID",
-        select: "name",
       })
       .exec();
     if (!resTest) {
@@ -209,7 +289,7 @@ router.get("/getRespondTest/:userID", async (req, res) => {
     }
     res.status(200).json({
       status: true,
-      test: resTest,
+      purchasedTests: resTest,
     });
   } catch (error) {
     res.status(500).json({

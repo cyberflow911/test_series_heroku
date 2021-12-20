@@ -3629,7 +3629,7 @@ paths:
           description: Invalid Credentials
         500:
           description: Internal Server Error
-  /v1/response/getRespondTest/{userID}:
+  /v1/response/purchasedTests/{userID}:
     get:
       tags:
         - name: Response
@@ -3642,15 +3642,20 @@ paths:
           in: path
           required: true
           type: string
-        - name: testID
+        - name: status
           in: query
           type: string
           enum: [inprogress, finished]
-          required: true
+        - name: offset
+          in: query
+          type: number
+        - name: limit
+          in: query
+          type: number
       responses:
         200:
           description: OK
-        400:
+        400: 
           description: Invalid Credentials
         404:
           description: Not Found
