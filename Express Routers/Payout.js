@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {Test} = require('../models/Test');
 
 
 const {Payout} = require('../models/Payout');
@@ -560,9 +561,21 @@ router.get('/purchasedTests/:userID', async(req, res)=>
         }
         else 
         {
+            const testData = await Promise.all(
+				user.purchasedTest.map(async (test) => {
+					const testRes = await test.getUserRes(req.params.userID);
+					return {
+						test,
+						testRes,
+					};
+				})
+			);
+            
             res.status(200).json(
                 {
-                    status: false,
+                    status: true,
+                    message: 'Test Found!!',
+                    testData: testData,
                     purchasedTest: user.purchasedTest,
                     purchasedSubCategories: user.purchasedSubCategories
                 }
