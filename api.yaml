@@ -1374,25 +1374,29 @@ paths:
         - name: Test
       summary: Will Create Categories for the test
       description: will generate categories regarding to the test
-      consumes:
-        application/json
+       consumes:
+        multipart/form-data
       produces:
         application/json
       parameters:
-      - in: body
-        name: User
-        schema:
-          type: object
-          properties:
-            nameCategory:
-              type: string 
-            descriptionCategory:
-              type: string
-            tagIDs:
-              type: array
-              items:
-                tagID:
-                  type: string
+        - name: image
+          in: formData
+          type: file
+          required: false 
+        - name: nameCategory
+          in: formData
+          type: string
+          required: true
+        - name: descriptionCategory
+          in: formData
+          type: string
+          required: true
+        - name: tagIDs
+          in: formData
+          type: array
+          items:
+              tagID:
+                type: string 
       responses:
         200:
           description: OK
@@ -3304,6 +3308,20 @@ paths:
       responses:
         200:
           description: OK
+  /v1/section/getSectionQuestionCount/{sectionID}:
+    get:
+      tags: 
+        - name: Section
+      summary: Get Section and its Question populate
+      description: Section by Id and paginated Questions
+      parameters:
+        - name: sectionID
+          in: path
+          type: string
+          required: true 
+      responses:
+        200:
+          description: OK
   /v1/section/deleteSectionByID/{testID}/{language}/{sectionID}:
     delete:
       tags:
@@ -3652,6 +3670,138 @@ paths:
         - name: limit
           in: query
           type: number
+      responses:
+        200:
+          description: OK
+        400: 
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/config/initilizeConfig/:
+    post:
+      tags:
+        - name: Config
+      summary: Congiguration
+      description: This route will be called when need to set initail config
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - in: body 
+          type: object
+          properties:
+            refferedComissions:
+              type: string
+            reffererCommission:
+              type: string 
+      responses:
+        200:
+          description: OK
+        400: 
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/config/update-reffererCommission/{amount}:
+    put:
+      tags:
+        - name: Config
+      summary: Congiguration
+      description: This route will be called when need to set update-reffererCommission
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - in: path 
+          name: amount
+          type: string 
+      responses:
+        200:
+          description: OK
+        400: 
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/config/update-refferedComissions/{amount}:
+    put:
+      tags:
+        - name: Config
+      summary: Congiguration
+      description: This route will be called when need to set update-reffererCommission
+      consumes: application/json
+      produces: application/json
+      parameters:
+        - in: path 
+          name: amount
+          type: string 
+      responses:
+        200:
+          description: OK
+        400: 
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  /v1/config/getConfiguration:
+    get:
+      tags:
+        - name: Config
+      summary: Congiguration
+      description: This route will be called when need to get config
+      consumes: application/json
+      produces: application/json 
+      responses:
+        200:
+          description: OK
+        400: 
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+
+  /v1/dbBackup/backup:
+    get:
+      tags:
+        - name: Backup
+      summary: db backup
+      description: This route will be called when need to backup db
+      consumes: application/json
+      produces: application/json
+      responses:
+        200:
+          description: OK
+        400: 
+          description: Invalid Credentials
+        404:
+          description: Not Found
+        401:
+          description: Invalid Credentials
+        500:
+          description: Internal Server Error
+  /v1/dbBackup/restore:
+    get:
+      tags:
+        - name: Backup
+      summary: db restore
+      description: This route will be called when need to restore db
+      consumes: application/json
+      produces: application/json
       responses:
         200:
           description: OK

@@ -24,6 +24,8 @@
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.1.1",
+    "mongodb-backup": "^1.6.9",
+    "mongodb-snapshot": "^1.4.0",
     "mongoose": "^6.0.5",
     "nodemailer": "^6.6.5",
     "nodemailer-express-handlebars": "^4.0.0",

@@ -16,6 +16,12 @@ const Categories = new Schema(
 				ref: "subCategory",
 			},
 		],
+		
+        image:
+        {
+            type: String,
+            default: ''
+        },
 		descriptionCategory: {
 			type: String,
 			required: true,

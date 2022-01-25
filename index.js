@@ -36,6 +36,8 @@ const payout = require("./Express Routers/Payout");
 const testHistory = require("./Express Routers/testTaken");
 const testTrack = require("./Express Routers/TakeTest");
 const userSpecificTest = require("./Express Routers/UserSpecificTest");
+const Configuration = require("./Express Routers/Configuration");
+const backup = require("./Express Routers/dbBackup");
 
 const refer = require("./Express Routers/Referrals");
 
@@ -59,7 +61,9 @@ console.log("Hello world");
 // ----------------------------connecting the Database ----------------------------------
 
 mongoose.connect(db, () => {
-	console.log("Database in connected Successfully");
+	console.log("Database in connected Successfully ",db);
+	
+console.log(mongoose.connection.readyState);
 });
 
 // --------------------------closing ----------------------------------------------------------
@@ -116,6 +120,8 @@ app.use("/v1/section", sectionRoute);
 app.use("/v1/question", questionRoute);
 app.use("/v1/track", testTrack);
 app.use("/v1/response", userSpecificTest);
+app.use("/v1/config", Configuration);
+app.use("/v1/dbBackup", backup);
 
 app.listen(port, () => {
 	console.log(`Server up and running on port ${port}`);

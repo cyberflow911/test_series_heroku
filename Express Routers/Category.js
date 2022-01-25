@@ -8,9 +8,9 @@ const upload = require("../middlewares/multer");
 const { Test } = require("../models/Test");
 const { Tag } = require("../models/Tags");
 
-router.post("/createCategory", async (req, res) => {
-  const { nameCategory, descriptionCategory, tagIDs } = req.body;
-  const data = { nameCategory, descriptionCategory, tags: tagIDs };
+router.post("/createCategory", upload.single('image'),async (req, res) => { 
+  const image = req?.file?.path
+  const data = { nameCategory:req.body.nameCategory, descriptionCategory:req.body.descriptionCategory, tags: req.body.tagIDs,image };
 
   // const resultFromJoi = categoryValidator(
   // 	"nameCategory descriptionCategory",
@@ -191,23 +191,42 @@ router.get("/getAllCategories/:offset/:limit", async (req, res) => {
 
 //edit CAtegory
 
-router.put("/editCategory/:categoryID", async (req, res) => {
+router.put("/editCategory/:categoryID",upload.single('image'), async (req, res) => {
   const { nameCategory, descriptionCategory } = req.body;
   try {
-    const findCategory = await Category.findOne({ _id: req.params.categoryID });
-    if (!findCategory) {
-      res.status(404).json({
-        status: false,
-        message: "Category Not Found",
-      });
-    } else {
-      const updateCategory = await Category.updateMany(
-        { _id: req.params.categoryID },
 
-        {
+    // const findCategory = await Category.findOne({ _id: req.params.categoryID });
+    // if (!findCategory) {
+    //   res.status(404).json({
+    //     status: false,
+    //     message: "Category Not Found",
+    //   });
+    // } else {
+
+      let updateQuery ;
+
+      if(req.file)
+      {
+         updateQuery = {
           nameCategory: nameCategory,
           descriptionCategory: descriptionCategory,
+          image:req.file.path
+          
         }
+      }else
+      {
+         updateQuery = {
+          nameCategory: nameCategory,
+          descriptionCategory: descriptionCategory,
+          
+        }
+      }
+      
+
+      const updateCategory = await Category.updateMany(
+        { _id: req.params.categoryID },
+        updateQuery
+        
       );
 
       const updatedCategory = await Category.findOne({
@@ -219,7 +238,7 @@ router.put("/editCategory/:categoryID", async (req, res) => {
         message: "Category is Updated!!",
         data: updatedCategory,
       });
-    }
+    
   } catch (error) {
     console.log(error);
   }
@@ -230,7 +249,7 @@ router.put(
   "/editSubCategory/:subCategoryID",
   upload.single("imageLogo"),
   async (req, res) => {
-    const { nameSubCategory, descriptionSubCategory } = req.body;
+    const { nameSubCategory, descriptionSubCategory,price } = req.body;
 
     try {
       const findSub = await subCategory.findOne({
@@ -248,6 +267,7 @@ router.put(
             {
               nameSubCategory: nameSubCategory,
               descriptionSubCategory: descriptionSubCategory,
+              price:price
             }
           );
 
@@ -261,6 +281,7 @@ router.put(
             {
               nameSubCategory: nameSubCategory,
               descriptionSubCategory: descriptionSubCategory,
+              price:price,
               imageLogo: req.file.path,
             }
           );
@@ -284,9 +305,9 @@ router.post(
   "/createSubCategory/:categoryID",
   upload.single("imageLogo"),
   async (req, res) => {
-    console.log(req.file);
+     
     const { nameSubCategory, descriptionSubCategory, price } = req.body;
-    const data = { nameSubCategory, descriptionSubCategory };
+    const data = { nameSubCategory, descriptionSubCategory,price };
 
     if (!req.file) {
       res.status(200).json({
@@ -294,18 +315,12 @@ router.post(
         message: "Logo Image Not Uploaded!!",
       });
     } else {
-      const resultFromJoi = categoryValidator(
-        "nameSubCategory descriptionSubCategory",
-        data
-      );
+      // const resultFromJoi = categoryValidator(
+      //   "nameSubCategory descriptionSubCategory",
+      //   data
+      // );
 
-      if (!resultFromJoi) {
-        res.status(200).json({
-          status: false,
-          message: "Invalid Credential Details",
-          NOTE: "Category name should be atleast 3 characters long and description should be atleast 8 characters long",
-        });
-      } else {
+       
         try {
           const categorymain = await Category.findOne({
             _id: req.params.categoryID,
@@ -333,7 +348,7 @@ router.post(
                   messsage: "Category not Created!",
                 });
               } else {
-                const categoryUpdate = await Category.updateOne(
+                const categoryUpdate = await Category.updateOne( 
                   { _id: req.params.categoryID },
                   {
                     $push: {
@@ -356,7 +371,7 @@ router.post(
         } catch (error) {
           console.log(error);
         }
-      }
+      
     }
   }
 );

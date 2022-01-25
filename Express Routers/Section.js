@@ -209,6 +209,31 @@ router.patch("/addQuestionIDs/:sectionID", async (req, res) => {
 	}
 });
 
+
+router.get("/getSectionQuestionCount/:sectionId",async(req, res)=>{
+
+
+	try{
+		const section = await Section.findOne({ _id: req.params.sectionId })
+		if(!section)
+		{
+
+			return res.status(404).json({
+				status: false,
+				message: "No Section found",
+			});
+		}
+
+		const count = section?.questions?.length
+		res.status(200).json({
+			status: true,
+			count: count,
+		});
+	}catch (error) 
+	{
+
+	}
+})
 router.patch("/hello", (req, res) => {
 	res.send(req.body);
 });

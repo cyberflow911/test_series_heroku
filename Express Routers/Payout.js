@@ -272,10 +272,7 @@ router.put('/editStatusPayout/:status/:transactionID', async(req, res)=>
                                                         message: "Transaction is applied!!"
                                                     }
                                                 )
-                                            }
-                                        
-                                            
-                    
+                                            } 
                                         }
                                         else 
                                         {

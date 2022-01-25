@@ -182,7 +182,13 @@ router.post('/searchItems', async(req, res)=>
             $options: "i"
             
 
-        }});
+        }}).populate({
+            path:'subCategoryID',
+            populate:{
+                path:"categoryID",
+                model: 'Category'
+            }
+        });
 
 
         res.status(200).json(

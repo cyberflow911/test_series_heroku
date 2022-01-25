@@ -118,24 +118,24 @@ router.get('/getProfileDetails/:userID', async (req, res)=>
     } catch (error) {
         
         console.log(error);
-    }
+    }   
 
 })
 
 router.put('/editProfileImage/:userID',upload.fields([
     {
-        name: 'profileImage', maxCount: 1
+        name: 'profileImage', maxCount: 1  
     }
 ]), async(req, res)=>
 {
-    console.log(req.files.profileImage[0]);
+    console.log(req.files.profileImage[0]);       
     try {
         
         const user = await Admin.findOne({_id: req.params.userID});
         if(!user)
         {
             res.status(200).json(
-                {
+                {  
                     status: false,
                     message: "User Not Found"
                 }
