@@ -61,7 +61,7 @@ console.log("Hello world");
 // ----------------------------connecting the Database ----------------------------------
 
 mongoose.connect(db, () => {
-	console.log("Database in connected Successfully ",db);
+	console.log("Database in connected Successfully ");
 	
 console.log(mongoose.connection.readyState);
 });
