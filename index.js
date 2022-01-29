@@ -60,7 +60,7 @@ console.log("Hello world");
 
 // ----------------------------connecting the Database ----------------------------------
 
-mongoose.connect(db,{auth:{authdb:"admin",username:"cyberAdmin",password:"Test@2022CyberAdmin"}}, (err) => {
+mongoose.connect(db,{auth:{authdb:"admin",username:"cyberAdmin",password:"Test@2022CyberFlow"}}, (err) => {
 	if(err)
 	{
 		console.log(err)
