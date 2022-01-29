@@ -60,7 +60,7 @@ console.log("Hello world");
 
 // ----------------------------connecting the Database ----------------------------------
 
-mongoose.connect(db, (err) => {
+mongoose.connect(db,{auth:{authdb:"admin"}}, (err) => {
 	if(err)
 	{
 		console.log(err)
