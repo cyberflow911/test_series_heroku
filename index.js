@@ -60,8 +60,13 @@ console.log("Hello world");
 
 // ----------------------------connecting the Database ----------------------------------
 
-mongoose.connect(db, () => {
-	console.log("Database in connected Successfully ");
+mongoose.connect(db, (err) => {
+	if(err)
+	{
+		console.log(err)
+		return
+	}
+	console.log("Database  connected Successfully ");
 	
 console.log(mongoose.connection.readyState);
 });
