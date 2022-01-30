@@ -38,6 +38,7 @@ const testTrack = require("./Express Routers/TakeTest");
 const userSpecificTest = require("./Express Routers/UserSpecificTest");
 const Configuration = require("./Express Routers/Configuration");
 const backup = require("./Express Routers/dbBackup");
+const test = require("./Express Routers/Test");
 
 const refer = require("./Express Routers/Referrals");
 
@@ -98,7 +99,7 @@ app.use(
 );
 
 //Routes for the express server
-
+ app.use("/",test);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 // app.use(express.static(__dirname));
 app.use("/images", express.static("images"));
