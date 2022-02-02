@@ -191,7 +191,8 @@ router.post('/createSuperAdmin', async(req, res)=>
                             salt: generateSalt,
                             email: "superAdmin@gmail.com",
                             typeUser: 0, 
-                            loginType:"superAdmin"
+                            loginType:"superAdmin",
+                            isActive:true
 
                         }
                     )
