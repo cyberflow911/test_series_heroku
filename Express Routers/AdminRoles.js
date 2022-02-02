@@ -206,6 +206,8 @@ router.post('/createSuperAdmin', async(req, res)=>
                     else 
                     
                     {
+
+                        await teacherAdd.save();
                         res.status(200).json({
                             status: true,
                             message: "SUper Admin Added ",
