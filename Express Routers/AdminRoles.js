@@ -50,7 +50,7 @@ router.post('/createTeacher', async(req, res)=>
         
         {
             try {
-                const teacher = await Admin.findOne({$or:[{userName: userName}, {email: email}]});
+                const teacher = await Admin.findOne({email: email});
                 if(teacher)
                 {
                     res.status(200).json(
@@ -63,7 +63,7 @@ router.post('/createTeacher', async(req, res)=>
                 else 
                 {
                     const referralGen = referralCode();
-                console.log(commisionPercent);
+                    console.log(commisionPercent);
                     const teacherAdd = await new Admin(
                         {
                             userName: userName,
@@ -81,7 +81,7 @@ router.post('/createTeacher', async(req, res)=>
                     {
                         res.status(200).json({
                             status: false,
-                            message: "Teacher not Added. Please Tru again later!!"
+                            message: "Teacher not Added. Please Try again later!!"
                         })
                     }
                     else 
