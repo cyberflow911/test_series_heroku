@@ -3252,6 +3252,7 @@ paths:
       responses:
         200:
           description: OK
+          
   /v1/admin/createSuperAdmin:
     post:
       tags: 

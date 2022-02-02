@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
 	const { email, password } = req.body;
 	const data = { email, password };
 
-	const resultFromJoi = adminValidator("email password", data);
+	const resultFromJoi = adminValidator("email", data);
 
 	if (!resultFromJoi) {
 		res.status(200).json({
