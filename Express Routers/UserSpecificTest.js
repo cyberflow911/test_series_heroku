@@ -331,7 +331,7 @@ router.get(
           message: "Question not found",
         });
       }
-      const questionRes = await question.getUserRes(req.params.userID);
+      const questionRs = await question.getUserRes(req.params.userID);
       res.status(200).json({
         status: true,
         question: question,
