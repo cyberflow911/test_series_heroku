@@ -20,7 +20,7 @@ const Admins = new Schema(
         loginType:
         {
             type: String,
-            enum: ['Normal', 'Social'],
+            enum: ['Normal', 'Social',"superAdmin"],
             required: true
 
         },
