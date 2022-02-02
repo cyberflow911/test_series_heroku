@@ -682,7 +682,7 @@ router.get('/referredStudent/:teacherID', async(req, res)=>
 
                     },
                     {
-                        "referralCode": teacher.referral
+                        "referralUsed": teacher.referral
                     }
                 ]
                 
