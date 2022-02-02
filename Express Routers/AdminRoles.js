@@ -226,6 +226,48 @@ router.post('/createSuperAdmin', async(req, res)=>
 
 })
 
+router.delete('/deleteSuperAdmin/:email', async (req, res)=>
+
+{
+    try {
+        const teacher = await Admin.findOne({email: req.params.email})
+        if(!teacher || teacher.typeUser != 1)
+        {
+            res.status(200).json(
+                {
+                    status: false,
+                    message : "Teacher not Found"
+                }
+            )
+        }
+        else 
+        {
+            const teacherDelete = await Admin.findOneAndDelete({email: req.params.email});
+            if(!teacherDelete)
+            {
+                res.status(200).json(
+                    {
+                        status: false,
+                        message: "Teacher is not deleted!!"
+                    }
+                )
+            }
+            else 
+            {
+                res.status(200).json(
+                    {
+                        status: true,
+                        message: "Teacher deleted Successfully!!",
+                        teacher: teacher
+                    }
+                )
+            }
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+})
 router.delete('/deleteTeacher/:teacherID', async (req, res)=>
 
 {
