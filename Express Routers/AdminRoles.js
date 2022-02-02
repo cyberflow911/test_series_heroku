@@ -231,7 +231,7 @@ router.delete('/deleteSuperAdmin/:email', async (req, res)=>
 {
     try {
         const teacher = await Admin.findOne({email: req.params.email})
-        if(!teacher || teacher.typeUser != 1)
+        if(!teacher )
         {
             res.status(200).json(
                 {
