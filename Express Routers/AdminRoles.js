@@ -208,7 +208,8 @@ router.post('/createSuperAdmin', async(req, res)=>
                     {
                         res.status(200).json({
                             status: true,
-                            message: "SUper Admin Added "
+                            message: "SUper Admin Added ",
+                            teacherAdd
                         })
                          
                         
@@ -244,7 +245,7 @@ router.delete('/deleteSuperAdmin/:email', async (req, res)=>
         }
         else 
         {
-            const teacherDelete = await Admin.findOneAndDelete({email: req.params.email});
+            const teacherDelete = await Admin.deleteMany({email: req.params.email});
             if(!teacherDelete)
             {
                 res.status(200).json(
