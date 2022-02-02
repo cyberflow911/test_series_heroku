@@ -29,15 +29,8 @@ router.post("/login", async (req, res) => {
 	const { email, password } = req.body;
 	const data = { email, password };
 
-	const resultFromJoi = adminValidator("email", data);
-
-	if (!resultFromJoi) {
-		res.status(200).json({
-			status: false,
-			message: "Invalid Credential Details",
-			Note: "email must be email and password must be 8 characters long",
-		});
-	} else {
+ 
+	 
 		try {
 			const admin = await Admin.findOne({ email: email });
 			if (!admin || admin.isActive === false) {
@@ -73,7 +66,7 @@ router.post("/login", async (req, res) => {
 		} catch (error) {
 			console.log(error);
 		}
-	}
+	 
 });
 
 //updatePassword for the api
