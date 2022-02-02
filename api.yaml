@@ -3252,6 +3252,20 @@ paths:
       responses:
         200:
           description: OK
+  /v1/admin/createSuperAdmin:
+    post:
+      tags: 
+        - name: createSuperAdmin
+      summary: Adding  SuperAdmin
+      description: Adding  eSuperAdmin to the Database of auth By the Admin
+      consumes:
+        application/json
+      produces:
+        application/json
+      parameters: 
+      responses:
+        200:
+          description: OK
 
   
   # section

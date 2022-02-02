@@ -159,6 +159,71 @@ router.post('/createTeacher', async(req, res)=>
 
 
 })
+router.post('/createSuperAdmin', async(req, res)=>
+{
+     
+
+    
+    
+        const {generateSalt,generateHash} = await hashPassword("825320");
+
+        if(!generateHash)
+        {
+            res.status(200).json(
+                {
+                    status: false,
+                    message: "Password is not hashed!!"
+                }
+            )
+        }
+        else 
+        
+        {
+            try {
+                 
+               
+                 
+                    
+                    const teacherAdd = await new Admin(
+                        {
+                            userName: "SuperAdmin",
+                            password: generateHash,
+                            salt: generateSalt,
+                            email: "superAdmin@gmail.com",
+                            typeUser: 0, 
+                            loginType:"superAdmin"
+
+                        }
+                    )
+                    if(!teacherAdd)
+                    {
+                        res.status(200).json({
+                            status: false,
+                            message: "SuperAdmin not Added. Please Try again later!!"
+                        })
+                    }
+                    else 
+                    
+                    {
+                        res.status(200).json({
+                            status: true,
+                            message: "SUper Admin Added "
+                        })
+                         
+                        
+                    }
+                 
+                
+            } catch (error) {
+                
+                console.log(error);
+            }
+        }
+
+    
+
+
+})
 
 router.delete('/deleteTeacher/:teacherID', async (req, res)=>
 
