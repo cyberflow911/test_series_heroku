@@ -99,7 +99,7 @@ app.use(
 );
 
 //Routes for the express server
- app.use("/",test);
+app.use("/",test);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 // app.use(express.static(__dirname));
 app.use("/images", express.static("images"));

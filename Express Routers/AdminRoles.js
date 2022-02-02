@@ -72,7 +72,8 @@ router.post('/createTeacher', async(req, res)=>
                             email: email,
                             typeUser: 1,
                             commisionPercent: commisionPercent,
-                            referral: referralGen
+                            referral: referralGen,
+                            loginType:"Normal"
 
                         }
                     )
